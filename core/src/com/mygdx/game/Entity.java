@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import org.w3c.dom.Text;
-
 public abstract class Entity implements ApplicationListener {
 
     private SpriteBatch spriteBatch;
@@ -17,8 +15,8 @@ public abstract class Entity implements ApplicationListener {
     private TextureRegion currentFrame;
     private int frameIndex;
     private float animationStateTime;
-    private int TEXTURE_COLS;
-    private int TEXTURE_ROWS;
+    private int textureCols;
+    private int textureRows;
 
     private String baseSpritePath;
 
@@ -32,8 +30,8 @@ public abstract class Entity implements ApplicationListener {
             TextureRegion currentFrame,
             int frameIndex,
             float animationStateTime,
-            int TEXTURE_COLS,
-            int TEXTURE_ROWS,
+            int textureCols,
+            int textureRows,
             String baseSpritePath) {
 
         this.spriteBatch = spriteBatch;
@@ -43,8 +41,8 @@ public abstract class Entity implements ApplicationListener {
         this.currentFrame = currentFrame;
         this.frameIndex = frameIndex;
         this.animationStateTime = animationStateTime;
-        this.TEXTURE_COLS = TEXTURE_COLS;
-        this.TEXTURE_ROWS = TEXTURE_ROWS;
+        this.textureCols = getTextureCols();
+        this.textureRows = textureRows;
 
 
     }
@@ -143,20 +141,20 @@ public abstract class Entity implements ApplicationListener {
         this.animationStateTime = animationStateTime;
     }
 
-    public int getTEXTURE_COLS() {
-        return TEXTURE_COLS;
+    public int getTextureCols() {
+        return textureCols;
     }
 
-    public void setTEXTURE_COLS(int TEXTURE_COLS) {
-        this.TEXTURE_COLS = TEXTURE_COLS;
+    public void setTextureCols(int TEXTURE_COLS) {
+        this.textureCols = textureCols;
     }
 
-    public int getTEXTURE_ROWS() {
-        return TEXTURE_ROWS;
+    public int getTextureRows() {
+        return textureRows;
     }
 
-    public void setTEXTURE_ROWS(int TEXTURE_ROWS) {
-        this.TEXTURE_ROWS = TEXTURE_ROWS;
+    public void setTextureRows(int textureRows) {
+        this.textureRows = textureRows;
     }
 
     public String getBaseSpritePath() {
