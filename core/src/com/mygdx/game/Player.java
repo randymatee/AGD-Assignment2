@@ -33,8 +33,8 @@ ddwdadw                  Animation animation,
     public void create() {
         super.create();
         setTextureSheet(new Texture(Gdx.files.internal("Broom.png")));
-        //setTextureRows(1);
-        //setTextureCols(1);
+        setTextureRows(1);
+        setTextureCols(1);
         setAnimationFrames(new TextureRegion[1 * 1]);
 
         parseSprite(getTextureSheet(), getAnimationFrames(), 1, 1);
@@ -42,7 +42,10 @@ ddwdadw                  Animation animation,
         setAnimation(new Animation(0.09f, getAnimationFrames()));
         setAnimationStateTime(0.0f);
         setPosition(new Vector2(50,50));
-        speed = 10;
+        speed = 5;
+
+        setSpriteHeight(200);
+        setSpriteWidth(200);
 
     }
 
@@ -55,7 +58,7 @@ ddwdadw                  Animation animation,
 
 
         getSpriteBatch().begin();
-        getSpriteBatch().draw(getCurrentFrame(), getPosition().x, getPosition().y, 200, 200);
+        getSpriteBatch().draw(getCurrentFrame(), getPosition().x, getPosition().y, getSpriteWidth(), getSpriteHeight());
         getSpriteBatch().end();
 
     }
