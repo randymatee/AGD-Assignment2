@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity implements ApplicationListener {
 
@@ -20,8 +21,10 @@ public abstract class Entity implements ApplicationListener {
 
     private String baseSpritePath;
 
+    private Vector2 position;
 
 
+/*
     public Entity(
             SpriteBatch spriteBatch,
             Texture textureSheet,
@@ -46,6 +49,8 @@ public abstract class Entity implements ApplicationListener {
 
 
     }
+    */
+
     @Override
     public void create() {
         spriteBatch = new SpriteBatch();
@@ -163,5 +168,13 @@ public abstract class Entity implements ApplicationListener {
 
     public void setBaseSpritePath(String baseSpritePath) {
         this.baseSpritePath = baseSpritePath;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 }

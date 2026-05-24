@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Trash extends Entity{
+    /*
     public Trash(SpriteBatch spriteBatch, Texture textureSheet,
                  TextureRegion[] animationFrames, Animation animation,
                  TextureRegion currentFrame, int frameIndex,
@@ -15,6 +16,8 @@ public class Trash extends Entity{
                 animation, currentFrame, frameIndex, animationStateTime,
                 TEXTURE_COLS, TEXTURE_ROWS, baseSpritePath);
     }
+
+     */
 
     @Override
     public void create() {
