@@ -52,13 +52,20 @@ public class Trash extends Entity implements ApplicationListener {
     @Override
     public void render() {
         if (activeTrash != null) {
+            Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int)this.getPosition().x, (int)this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
+            ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
+
             for (Trash trash: activeTrash) {
                 Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
                 trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
+
+                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
+                    isPushing = false;
+                }
             }
-        }
 
 
+            }
 
         if (isPushing) {
             push(currentPushDirection, currentPushSpeed, false);
