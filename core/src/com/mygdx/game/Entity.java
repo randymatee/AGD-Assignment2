@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,6 +27,8 @@ public abstract class Entity implements ApplicationListener {
     private int spriteWidth;
     private int spriteHeight;
 
+
+    private Vector2 startingPositon;
 
 /*
     public Entity(
@@ -67,6 +70,14 @@ public abstract class Entity implements ApplicationListener {
 
     @Override
     public void render() {
+        setAnimationStateTime(getAnimationStateTime() + Gdx.graphics.getDeltaTime());
+
+        setCurrentFrame((TextureRegion) getAnimation().getKeyFrame(getAnimationStateTime(), true));
+
+
+        getSpriteBatch().begin();
+        getSpriteBatch().draw(getCurrentFrame(), getPosition().x, getPosition().y, getSpriteWidth(), getSpriteHeight());
+        getSpriteBatch().end();
 
     }
 
@@ -195,5 +206,13 @@ public abstract class Entity implements ApplicationListener {
 
     public void setSpriteHeight(int spriteHeight) {
         this.spriteHeight = spriteHeight;
+    }
+
+    public Vector2 getStartingPositon() {
+        return startingPositon;
+    }
+
+    public void setStartingPositon(Vector2 startingPositon) {
+        this.startingPositon = startingPositon;
     }
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends Entity implements ApplicationListener {
 
     private float speed;
+    private boolean canPush = true;
 /*
     public Player(SpriteBatch spriteBatch,
                   Texture textureSheet,
@@ -36,13 +37,16 @@ ddwdadw                  Animation animation,
         setTextureRows(1);
         setTextureCols(1);
         setAnimationFrames(new TextureRegion[1 * 1]);
+        setStartingPositon(new Vector2(50, 50));
+
 
         parseSprite(getTextureSheet(), getAnimationFrames(), 1, 1);
 
         setAnimation(new Animation(0.09f, getAnimationFrames()));
         setAnimationStateTime(0.0f);
-        setPosition(new Vector2(50,50));
-        speed = 5;
+        setPosition(getStartingPositon());
+        speed = 450;
+
 
         setSpriteHeight(200);
         setSpriteWidth(200);
@@ -52,14 +56,6 @@ ddwdadw                  Animation animation,
     @Override
     public void render() {
         super.render();
-        setAnimationStateTime(getAnimationStateTime() + Gdx.graphics.getDeltaTime());
-
-        setCurrentFrame((TextureRegion) getAnimation().getKeyFrame(getAnimationStateTime(), true));
-
-
-        getSpriteBatch().begin();
-        getSpriteBatch().draw(getCurrentFrame(), getPosition().x, getPosition().y, getSpriteWidth(), getSpriteHeight());
-        getSpriteBatch().end();
 
     }
 
@@ -70,5 +66,13 @@ ddwdadw                  Animation animation,
 
     public float getSpeed() {
         return speed;
+    }
+
+    public boolean isCanPush() {
+        return canPush;
+    }
+
+    public void setCanPush(boolean canPush) {
+        this.canPush = canPush;
     }
 }

@@ -4,12 +4,14 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import java.awt.Button;
-import java.security.UnresolvedPermission;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -27,6 +29,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture rightButtonTexture;
 	private Texture upButtonTexture;
 	private Texture downButtonTexture;
+
+	private List<Trash> activeTrash;
+
 
 
 
@@ -56,6 +61,9 @@ public class MyGdxGame extends ApplicationAdapter {
 			button.create();
 		}
 
+		activeTrash = new ArrayList<>();
+		newGame();
+
 
 		//leftButton = new
 
@@ -71,6 +79,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (DPadButton button: dPadButtons) {
 			button.render();
 		}
+		if (activeTrash != null) {
+
+			for (Trash trash: activeTrash) {
+				trash.render();
+			}
+		}
+
 
 		/*
 		batch.begin();
@@ -116,25 +131,72 @@ public class MyGdxGame extends ApplicationAdapter {
 					}
 				}
 			}
+			// Gets the currently active sprite.
+			Sprite playerSprite = new Sprite(player.getCurrentFrame(), (int)player.getPosition().x, (int)player.getPosition().y, player.getSpriteWidth(), player.getSpriteHeight());
+			playerSprite.setPosition(player.getPosition().x, player.getPosition().y);
+			Vector2 positionToMove = null;
+			Vector2 preMovePosition = player.getPosition();
+			PushDirection pushDirection = null;
 
+
+			float speedDelta = player.getSpeed() * Gdx.graphics.getDeltaTime();
 			if (touchedButton == leftButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
-				player.setPosition(new Vector2(player.getPosition().x - player.getSpeed(), player.getPosition().y));
+				positionToMove = new Vector2(player.getPosition().x - speedDelta, player.getPosition().y);
+				pushDirection = PushDirection.LEFT;
+
 			}
 			else if (touchedButton == rightButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
-				player.setPosition(new Vector2(player.getPosition().x + player.getSpeed(), player.getPosition().y));
+				positionToMove = new Vector2(player.getPosition().x + speedDelta, player.getPosition().y);
+				pushDirection = PushDirection.RIGHT;
 			}
 
 			else if (touchedButton == upButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
-				player.setPosition(new Vector2(player.getPosition().x, player.getPosition().y + player.getSpeed()));
+				positionToMove = new Vector2(player.getPosition().x, player.getPosition().y + speedDelta);
+				pushDirection = PushDirection.UP;
 			}
 
 			else if (touchedButton == downButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN)) {
-				player.setPosition(new Vector2(player.getPosition().x, player.getPosition().y - player.getSpeed()));
+				positionToMove = new Vector2(player.getPosition().x, player.getPosition().y - speedDelta);
+				pushDirection = PushDirection.DOWN;
+			}
+			player.setPosition(positionToMove);
+			// Ensure player has been moved for collision check
+			player.render();
+
+			for (Trash trash: activeTrash) {
+				Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
+				trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
+
+
+				if (playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
+					//System.out.println(playerSprite.getBoundingRectangle().toString());
+					System.out.println(trashSprite.getBoundingRectangle().toString());
+					trash.push(pushDirection, speedDelta, player.isCanPush());
+					player.setCanPush(false);
+					player.setPosition(preMovePosition);
+					player.render();
+					break;
+				}
+
 			}
 
 
-		}
 
+		}
+	}
+
+	public void newGame() {
+		// TODO: Get variables stored in level class for stuff like amount of trash / orientation
+
+		int trashCount = 2;
+
+		for (int i = 0; i < trashCount - 1; i++) {
+			Trash temp = new Trash();
+			temp.create();
+			activeTrash.add(temp);
+			temp.setActiveTrash(activeTrash);
+
+		}
 
 
 
