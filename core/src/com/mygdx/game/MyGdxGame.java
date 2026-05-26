@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.mygdx.game.world.Platform;
+import com.mygdx.game.world.Constants;
+import java.awt.Button;
+import java.security.UnresolvedPermission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +36,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture downButtonTexture;
 
 	private List<Trash> activeTrash;
+
+
+	private OrthographicCamera camera;
+	private Platform platform;
+
+
 
 
 
@@ -68,12 +79,27 @@ public class MyGdxGame extends ApplicationAdapter {
 		//leftButton = new
 
 
+
+
+		//leftButton = new
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
+		camera.update();
+
+		platform = new Platform();
+
+
 	}
 
 	@Override
 	public void render () {
 		update();
 		ScreenUtils.clear(1, 0, 0, 1);
+		camera.update();
+
+		platform.render(camera, batch);
+
 		player.render();
 
 		for (DPadButton button: dPadButtons) {
@@ -93,12 +119,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.end();
 
 		 */
+
+		/*
+		batch.begin();
+		batch.draw(img, 0, 0);
+		batch.end();
+
+		 */
+
+
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
+		platform.dispose();
 	}
 
 	public void update() {
@@ -179,6 +215,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 
 			}
+
 
 
 
