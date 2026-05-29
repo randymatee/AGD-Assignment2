@@ -42,14 +42,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Platform platform;
 
 
-
-
-
-
-
-
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 
 		img = new Texture("badlogic.jpg");
@@ -61,14 +55,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		player = new Player();
 		player.create();
 		float buttonSize = Gdx.graphics.getHeight() * 0.1f;
-		leftButton = new DPadButton(20, 100, buttonSize, buttonSize, leftButtonTexture, "left" );
+		leftButton = new DPadButton(20, 100, buttonSize, buttonSize, leftButtonTexture, "left");
 		rightButton = new DPadButton(280, 100, buttonSize, buttonSize, rightButtonTexture, "right");
-		downButton = new DPadButton(150, 20, buttonSize,buttonSize, downButtonTexture, "down");
+		downButton = new DPadButton(150, 20, buttonSize, buttonSize, downButtonTexture, "down");
 		upButton = new DPadButton(150, 180, buttonSize, buttonSize, upButtonTexture, "up");
 
-		dPadButtons = new DPadButton[] {leftButton, rightButton, upButton, downButton};
+		dPadButtons = new DPadButton[]{leftButton, rightButton, upButton, downButton};
 
-		for (DPadButton button: dPadButtons) {
+		for (DPadButton button : dPadButtons) {
 			button.create();
 		}
 
@@ -77,8 +71,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		//leftButton = new
-
-
 
 
 		//leftButton = new
@@ -93,16 +85,19 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		update();
 		ScreenUtils.clear(1, 0, 0, 1);
+
+		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
+		camera.position.y = Constants.WORLD_HEIGHT / 2f;
 		camera.update();
 
 		platform.render(camera, batch);
 
 		player.render();
 
-		for (DPadButton button: dPadButtons) {
+		for (DPadButton button : dPadButtons) {
 			button.render();
 		}
 		if (activeTrash != null) {
@@ -131,7 +126,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void dispose () {
+	public void dispose() {
 		batch.dispose();
 		img.dispose();
 		platform.dispose();
@@ -158,9 +153,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				for (DPadButton button : dPadButtons) {
 
 					if ((touchX >= button.getPosX() && touchX <= button.getPosX() + button.getWidth()) &&
-							(gameHeight - touchY >= button.getPosY() && gameHeight - touchY <= button.getPosY() + button.getHeight()))
-
-					{
+							(gameHeight - touchY >= button.getPosY() && gameHeight - touchY <= button.getPosY() + button.getHeight())) {
 
 						touchedButton = button;
 						break;
@@ -174,27 +167,38 @@ public class MyGdxGame extends ApplicationAdapter {
 			Vector2 preMovePosition = player.getPosition();
 			PushDirection pushDirection = null;
 
+			float newX = player.getPosition().x;
+			float newY = player.getPosition().y;
+
 
 			float speedDelta = player.getSpeed() * Gdx.graphics.getDeltaTime();
 			if (touchedButton == leftButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
 				positionToMove = new Vector2(player.getPosition().x - speedDelta, player.getPosition().y);
 				pushDirection = PushDirection.LEFT;
+                newX -= player.getSpeed();
 
-			}
+
+            }
 			else if (touchedButton == rightButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
 				positionToMove = new Vector2(player.getPosition().x + speedDelta, player.getPosition().y);
 				pushDirection = PushDirection.RIGHT;
-			}
+                newX += player.getSpeed();
+
+            }
 
 			else if (touchedButton == upButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
 				positionToMove = new Vector2(player.getPosition().x, player.getPosition().y + speedDelta);
 				pushDirection = PushDirection.UP;
-			}
+                newY += player.getSpeed();
+
+            }
 
 			else if (touchedButton == downButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN)) {
 				positionToMove = new Vector2(player.getPosition().x, player.getPosition().y - speedDelta);
 				pushDirection = PushDirection.DOWN;
-			}
+                newY -= player.getSpeed();
+
+            }
 			player.setPosition(positionToMove);
 			// Ensure player has been moved for collision check
 			player.render();
@@ -216,7 +220,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 
+			boolean colliding = platform.doesRectCollideWithMap(
+					newX,
+					newY,
+					16,
+					16
+			);
 
+			if (!colliding) {
+				player.setPosition(new Vector2(newX, newY));
+				System.out.println("collision detected");
 
 
 		}

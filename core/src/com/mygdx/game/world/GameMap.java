@@ -17,18 +17,13 @@ public abstract class GameMap {
 
     public boolean doesRectCollideWithMap(float x, float y, int width, int height) {
 
-        if (y < 0) {
-            return true;
-        }
+        int leftTile = (int)(x / TileType.TILE_SIZE);
+        int rightTile = (int)((x + width - 1) / TileType.TILE_SIZE);
+        int bottomTile = (int)(y / TileType.TILE_SIZE);
+        int topTile = (int)((y + height - 1) / TileType.TILE_SIZE);
 
-        for (int row = (int)(y / TileType.TILE_SIZE);
-             row < Math.ceil((y + height) / TileType.TILE_SIZE);
-             row++) {
-
-            for (int col = (int)(x / TileType.TILE_SIZE);
-                 col < Math.ceil((x + width) / TileType.TILE_SIZE);
-                 col++) {
-
+        for (int row = bottomTile; row <= topTile; row++) {
+            for (int col = leftTile; col <= rightTile; col++) {
                 for (int layer = 0; layer < getLayers(); layer++) {
 
                     TileType type = getTileTypeByCoordinate(layer, col, row);

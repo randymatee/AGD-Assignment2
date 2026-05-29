@@ -4,10 +4,7 @@ import java.util.HashMap;
 
 public enum TileType {
 
-    WALL(6, true, "Wall"),
-    COLLIDABLE(38, true, "Collidable"),
-    BLOCK(40, true, "Block"),
-    TRANSFORMED(1610612774, true, "Transformed");
+    COLLIDABLE(38, true, "Collidable");
 
     public static final int TILE_SIZE = 32;
 
