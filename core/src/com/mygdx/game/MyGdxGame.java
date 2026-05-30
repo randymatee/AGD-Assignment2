@@ -231,6 +231,8 @@ public class MyGdxGame extends ApplicationAdapter {
 				player.setPosition(new Vector2(newX, newY));
 				System.out.println("collision detected");
 
+			}
+
 
 		}
 	}
