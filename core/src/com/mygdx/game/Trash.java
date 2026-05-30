@@ -51,6 +51,8 @@ public class Trash extends Entity implements ApplicationListener {
 
     @Override
     public void render() {
+        super.render();
+
         if (activeTrash != null) {
             Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int)this.getPosition().x, (int)this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
             ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
@@ -59,7 +61,8 @@ public class Trash extends Entity implements ApplicationListener {
                 Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
                 trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
 
-                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
+
+                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle()) && trash != this) {
                     isPushing = false;
                 }
             }
@@ -68,14 +71,16 @@ public class Trash extends Entity implements ApplicationListener {
             }
 
         if (isPushing) {
-            push(currentPushDirection, currentPushSpeed, false);
+            push(currentPushDirection, currentPushSpeed, true);
         }
+
         super.render();
+
     }
 
 
-    public void push(PushDirection direction, float deltaSpeed, boolean hasBeenPushed) {
-        if (hasBeenPushed) {
+    public void push(PushDirection direction, float deltaSpeed, boolean canBePushed) {
+        if (!canBePushed) {
             return;
         }
         currentPushDirection = direction;

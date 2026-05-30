@@ -42,6 +42,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Platform platform;
 
 
+
+
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
@@ -89,13 +91,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		update();
 		ScreenUtils.clear(1, 0, 0, 1);
 
-		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
+
 		camera.position.y = Constants.WORLD_HEIGHT / 2f;
 		camera.update();
 
 		platform.render(camera, batch);
 
 		player.render();
+
+		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
 
 		for (DPadButton button : dPadButtons) {
 			button.render();
@@ -163,7 +167,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			// Gets the currently active sprite.
 			Sprite playerSprite = new Sprite(player.getCurrentFrame(), (int)player.getPosition().x, (int)player.getPosition().y, player.getSpriteWidth(), player.getSpriteHeight());
 			playerSprite.setPosition(player.getPosition().x, player.getPosition().y);
-			Vector2 positionToMove = null;
+			Vector2 positionToMove = player.getPosition();
 			Vector2 preMovePosition = player.getPosition();
 			PushDirection pushDirection = null;
 
@@ -172,7 +176,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 			float speedDelta = player.getSpeed() * Gdx.graphics.getDeltaTime();
-			if (touchedButton == leftButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
+
+
+			if (touchedButton == null) {
+				return;
+
+			}
+			else if (touchedButton == leftButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
 				positionToMove = new Vector2(player.getPosition().x - speedDelta, player.getPosition().y);
 				pushDirection = PushDirection.LEFT;
                 newX -= player.getSpeed();
@@ -220,15 +230,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 
-			boolean colliding = platform.doesRectCollideWithMap(
-					newX,
-					newY,
-					16,
-					16
-			);
+			boolean colliding = platform.doesRectCollideWithMap(positionToMove.x, positionToMove.y,
+							16,16);
 
 			if (!colliding) {
-				player.setPosition(new Vector2(newX, newY));
+				player.setPosition(positionToMove);
+				player.render();
 				System.out.println("collision detected");
 
 			}
