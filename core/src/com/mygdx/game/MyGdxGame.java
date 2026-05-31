@@ -6,7 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -39,6 +42,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	private OrthographicCamera camera;
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
 	private Platform platform;
 
 
@@ -69,7 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 
 		activeTrash = new ArrayList<>();
-		newGame();
+
 
 
 		//leftButton = new
@@ -83,6 +91,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		platform = new Platform();
 
+		newGame();
+
 
 	}
 
@@ -93,13 +103,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		camera.position.y = Constants.WORLD_HEIGHT / 2f;
-		camera.update();
+		//camera.update();
 
 		platform.render(camera, batch);
 
 		player.render();
 
-		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
+		//camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
 
 		for (DPadButton button : dPadButtons) {
 			button.render();
@@ -213,6 +223,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			// Ensure player has been moved for collision check
 			player.render();
 
+
+
+
+
 			for (Trash trash: activeTrash) {
 				Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
 				trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
@@ -221,7 +235,13 @@ public class MyGdxGame extends ApplicationAdapter {
 				if (playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
 					//System.out.println(playerSprite.getBoundingRectangle().toString());
 					System.out.println(trashSprite.getBoundingRectangle().toString());
+
+					if (trash.isDirectionContainingPrevCollision(pushDirection)) {
+						break;
+					}
 					trash.push(pushDirection, speedDelta, player.isCanPush());
+
+					trash.setDirectionOfMovement(pushDirection);
 					player.setCanPush(false);
 					player.setPosition(preMovePosition);
 					player.render();
@@ -247,17 +267,50 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void newGame() {
 		// TODO: Get variables stored in level class for stuff like amount of trash / orientation
 
-		int trashCount = 2;
+		int trashCount = 3;
 
 		for (int i = 0; i < trashCount - 1; i++) {
+
 			Trash temp = new Trash();
 			temp.create();
 			activeTrash.add(temp);
+			if (i == 0) {
+				temp.setPosition(new Vector2(1000, 500));
+			}
+
 			temp.setActiveTrash(activeTrash);
+			platform.setActiveTrash(activeTrash);
+			temp.setPlayer(this.player);
+			temp.setGame(this);
 
 		}
 
 
 
 	}
+
+	public Ray createRay(float x, float y,PushDirection pushDirection) {
+		Vector3 rayDirection = null;
+
+		switch (pushDirection) {
+			case UP:
+				rayDirection = new Vector3(0, 1, 0);
+				break;
+
+			case DOWN:
+				rayDirection = new Vector3(0, -1, 0);
+				break;
+			case LEFT:
+				rayDirection = new Vector3(-1, 0, 0);
+				break;
+
+			case RIGHT:
+				rayDirection = new Vector3(1, 0, 0);
+				break;
+		}
+
+		Ray collisionRay = new Ray(new Vector3(x,y,0), new Vector3(rayDirection));
+		return collisionRay;
+	}
+
 }

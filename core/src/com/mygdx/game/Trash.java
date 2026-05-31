@@ -2,13 +2,20 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
+import com.badlogic.gdx.math.collision.Ray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trash extends Entity implements ApplicationListener {
@@ -17,7 +24,14 @@ public class Trash extends Entity implements ApplicationListener {
     private PushDirection currentPushDirection;
     private float currentPushSpeed;
 
+    private Player player;
     private List<Trash> activeTrash;
+
+    private Trash collidedTrash;
+
+    private PushDirection directionOfMovement;
+
+    private MyGdxGame Game;
     /*
     public Trash(SpriteBatch spriteBatch, Texture textureSheet,
                  TextureRegion[] animationFrames, Animation animation,
@@ -47,24 +61,81 @@ public class Trash extends Entity implements ApplicationListener {
         setSpriteHeight(100);
         setSpriteWidth(100);
         activeTrash = null;
+        player = null;
+        collidedTrash = null;
+        directionOfMovement = null;
+
+        setCurrentFrame((TextureRegion) getAnimation().getKeyFrame(getAnimationStateTime(), true));
+
     }
 
     @Override
     public void render() {
         super.render();
 
-        if (activeTrash != null) {
+        if (activeTrash != null && isPushing) {
             Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int)this.getPosition().x, (int)this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
             ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
+
+            List<Trash> trashToCheckCollide = new ArrayList<Trash>();
+            List<Sprite> collideSprites = new ArrayList<Sprite>();
+            Ray collisionRay = Game.createRay(this.getPosition().x + this.getSpriteWidth() / 2, this.getPosition().y + this.getSpriteHeight() / 2, directionOfMovement);
+
+            ShapeRenderer shapeRenderer = new ShapeRenderer();
+            shapeRenderer.setProjectionMatrix(Game.getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.line(collisionRay.origin.x, collisionRay.origin.y, collisionRay.origin.x + 500, collisionRay.origin.y);
+            shapeRenderer.end();
 
             for (Trash trash: activeTrash) {
                 Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
                 trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
 
 
-                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle()) && trash != this) {
-                    isPushing = false;
+                BoundingBox spriteBox = new BoundingBox(new Vector3(trash.getPosition().x, trash.getPosition().y, -1),
+                                                        new Vector3(trash.getPosition().x + trash.getSpriteWidth(), trash.getPosition().y + trash.getSpriteHeight(),1 ));
+
+                if (Intersector.intersectRayBoundsFast(collisionRay, spriteBox)) {
+                    trashToCheckCollide.add(trash);
+                    collideSprites.add(trashSprite);
                 }
+
+
+                // TODO: Turn off isPushing when colliding with a tilemap.
+
+                /*
+                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle()) && trash != this) {
+                    collidedTrash = trash;
+
+
+
+                    if(isPushing) {
+                        isPushing = false;
+                        player.setCanPush(true);
+                    }
+
+
+                }
+                */
+
+            }
+            for (int i = 0; i < trashToCheckCollide.size(); i++) {
+                Trash trash = trashToCheckCollide.get(i);
+                Sprite trashSprite = collideSprites.get(i);
+                if (trash == null || trashSprite == null) {
+                    continue;
+                }
+                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle()) && trash != this) {
+                    collidedTrash = trash;
+
+                    if (isPushing) {
+                        isPushing = false;
+                        player.setCanPush(true);
+                    }
+                }
+
+
             }
 
 
@@ -104,11 +175,80 @@ public class Trash extends Entity implements ApplicationListener {
 
     }
 
+
+    public boolean isDirectionContainingPrevCollision(PushDirection movDirection) {
+
+        int distanceToCheck = 5;
+        //float spriteHeightDivised = this.getSpriteHeight() / 2;
+        //float collidedHeightDivised = collidedTrash.getSpriteHeight() / 2;
+
+        //float spriteWidthDivised = this.getSpriteWidth() / 2;
+        //float collidedWidthDivised = collidedTrash.getSpriteWidth() / 2;
+
+
+
+
+        if (collidedTrash == null) {
+            return false;
+        }
+        switch (movDirection) {
+
+            case UP:
+                if (this.getPosition().y + this.getSpriteHeight() + distanceToCheck > collidedTrash.getPosition().y
+                && this.getPosition().y + this.getSpriteHeight() + distanceToCheck < collidedTrash.getPosition().y + collidedTrash.getSpriteHeight()) {
+                    return true;
+                }
+                break;
+            case DOWN:
+                if (this.getPosition().y - distanceToCheck < collidedTrash.getPosition().y + collidedTrash.getSpriteHeight()
+                        && this.getPosition().y - distanceToCheck > collidedTrash.getPosition().y) {
+                    return true;
+
+
+                }
+                break;
+            case LEFT:
+                if (this.getPosition().x - distanceToCheck < collidedTrash.getPosition().x + collidedTrash.getSpriteWidth()
+                        && this.getPosition().x - distanceToCheck > collidedTrash.getPosition().x) {
+                    return true;
+                }
+                break;
+
+            case RIGHT:
+                if (this.getPosition().x + this.getSpriteWidth() + distanceToCheck > collidedTrash.getPosition().x
+                        && this.getPosition().x + this.getSpriteWidth() + distanceToCheck < collidedTrash.getPosition().x + collidedTrash.getSpriteWidth()) {
+                    return true;
+                }
+                break;
+
+
+        }
+        return false;
+
+
+    }
+
     public List<Trash> getActiveTrash() {
         return activeTrash;
     }
 
     public void setActiveTrash(List<Trash> activeTrash) {
         this.activeTrash = activeTrash;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public PushDirection getDirectionOfMovement() {
+        return directionOfMovement;
+    }
+
+    public void setDirectionOfMovement(PushDirection directionOfMovement) {
+        this.directionOfMovement = directionOfMovement;
+    }
+
+    public void setGame(MyGdxGame game) {
+        Game = game;
     }
 }

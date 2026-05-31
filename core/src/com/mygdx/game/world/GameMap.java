@@ -1,6 +1,12 @@
 package com.mygdx.game.world;
 
+import com.mygdx.game.Trash;
+
+import java.util.List;
+
 public abstract class GameMap {
+
+    private List<Trash> activeTrash;
 
     public GameMap() {
     }
@@ -53,5 +59,13 @@ public abstract class GameMap {
     public abstract void render(com.badlogic.gdx.graphics.OrthographicCamera camera, com.badlogic.gdx.graphics.g2d.SpriteBatch batch);
 
     public void dispose() {
+    }
+
+    public List<Trash> getActiveTrash() {
+        return activeTrash;
+    }
+
+    public void setActiveTrash(List<Trash> activeTrash) {
+        this.activeTrash = activeTrash;
     }
 }
