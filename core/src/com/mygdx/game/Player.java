@@ -13,12 +13,14 @@ public class Player extends Entity implements ApplicationListener {
     private float speed;
     private boolean canPush = true;
 
+    //for enemy when on contact
+    private boolean dead = false;
 
 /*
     public Player(SpriteBatch spriteBatch,
                   Texture textureSheet,
                   TextureRegion[] animationFrames,
-ddwdadw                  Animation animation,
+                  Animation animation,
                   TextureRegion currentFrame,
                   int frameIndex,
                   float animationStateTime,
@@ -76,5 +78,13 @@ ddwdadw                  Animation animation,
 
     public void setCanPush(boolean canPush) {
         this.canPush = canPush;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }

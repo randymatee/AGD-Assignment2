@@ -22,9 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
+
+	public enum GameState { MENU, PLAYING, FAIL, SUCCESS }
+
+	private GameState gameState;
 	private SpriteBatch batch;
 	private Texture img;
 	private Player player;
+
+	private Enemy enemy;
 
 	private DPadButton leftButton;
 	private DPadButton rightButton;
@@ -66,6 +72,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		player = new Player();
 		player.create();
+
+		//create enemy -randy
+		enemy = new Enemy();
+		enemy.create();
+
+
 		float buttonSize = Gdx.graphics.getHeight() * 0.1f;
 		leftButton = new DPadButton(20, 100, buttonSize, buttonSize, leftButtonTexture, "left");
 		rightButton = new DPadButton(280, 100, buttonSize, buttonSize, rightButtonTexture, "right");
@@ -82,6 +94,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
+
 		//leftButton = new
 
 
@@ -95,12 +108,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		newGame();
 
+		gameState = GameState.PLAYING;
+
 
 	}
 
 	@Override
 	public void render() {
-		update();
+		if (gameState == GameState.PLAYING) {
+			update();
+		}
 		ScreenUtils.clear(1, 0, 0, 1);
 
 
@@ -110,6 +127,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		platform.render(camera, batch);
 
 		player.render();
+
+		enemy.render();
 
 		//camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
 
@@ -180,7 +199,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			Sprite playerSprite = new Sprite(player.getCurrentFrame(), (int)player.getPosition().x, (int)player.getPosition().y, player.getSpriteWidth(), player.getSpriteHeight());
 			playerSprite.setPosition(player.getPosition().x, player.getPosition().y);
 			Vector2 positionToMove = player.getPosition();
-			Vector2 preMovePosition = player.getPosition();
+			Vector2 preMovePosition = new Vector2(player.getPosition());
 			PushDirection pushDirection = null;
 
 			float newX = player.getPosition().x;
@@ -251,9 +270,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					}
 
 					if (trash.trashToCheckCollide.size() == 0 && !trash.getIsPushing()) {
-
 						player.setPosition(preMovePosition);
-
 					}
 
 
@@ -275,6 +292,22 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			boolean colliding = platform.doesRectCollideWithMap(positionToMove.x, positionToMove.y,
 							16,16);
+
+			Sprite enemySprite = new Sprite(
+					enemy.getCurrentFrame(),
+					(int) enemy.getPosition().x,
+					(int) enemy.getPosition().y,
+					enemy.getSpriteWidth(),
+					enemy.getSpriteHeight()
+			);
+
+			enemySprite.setPosition(enemy.getPosition().x, enemy.getPosition().y);
+
+			if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
+				player.setDead(true);
+				gameState = GameState.FAIL;
+				System.out.println("Player died!");
+			}
 
 			if (!colliding) {
 				//player.setPosition(positionToMove);
