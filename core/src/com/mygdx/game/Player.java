@@ -12,6 +12,8 @@ public class Player extends Entity implements ApplicationListener {
 
     private float speed;
     private boolean canPush = true;
+
+
 /*
     public Player(SpriteBatch spriteBatch,
                   Texture textureSheet,

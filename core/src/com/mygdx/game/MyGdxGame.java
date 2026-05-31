@@ -40,6 +40,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private List<Trash> activeTrash;
 
+	//private boolean isOverlapping = true;
+
 
 	private OrthographicCamera camera;
 
@@ -221,7 +223,7 @@ public class MyGdxGame extends ApplicationAdapter {
             }
 			player.setPosition(positionToMove);
 			// Ensure player has been moved for collision check
-			player.render();
+			//player.render();
 
 
 
@@ -233,19 +235,40 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 				if (playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
+
 					//System.out.println(playerSprite.getBoundingRectangle().toString());
 					System.out.println(trashSprite.getBoundingRectangle().toString());
 
+					trash.setDirectionOfMovement(pushDirection);
+					trash.calculateRayCollisions();
+
 					if (trash.isDirectionContainingPrevCollision(pushDirection)) {
+						player.setPosition(preMovePosition);
+						//player.render();
+
+
+
+					}
+
+					if (trash.trashToCheckCollide.size() == 0 && !trash.getIsPushing()) {
+
+						player.setPosition(preMovePosition);
+
+					}
+
+
+					if (trash.isOverlapping() == true) {
+						trash.setPushPosition(trash.push(pushDirection, speedDelta, player.isCanPush()));
+						player.setCanPush(false);
+						trash.setOverlapping(false);
 						break;
 					}
-					trash.push(pushDirection, speedDelta, player.isCanPush());
 
-					trash.setDirectionOfMovement(pushDirection);
-					player.setCanPush(false);
-					player.setPosition(preMovePosition);
-					player.render();
-					break;
+
+					//player.render();
+					//break;
+				} else if (!(playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) && !trash.isOverlapping()) {
+					trash.setOverlapping(true);
 				}
 
 			}
@@ -254,8 +277,8 @@ public class MyGdxGame extends ApplicationAdapter {
 							16,16);
 
 			if (!colliding) {
-				player.setPosition(positionToMove);
-				player.render();
+				//player.setPosition(positionToMove);
+				//player.render();
 				System.out.println("collision detected");
 
 			}
@@ -267,7 +290,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void newGame() {
 		// TODO: Get variables stored in level class for stuff like amount of trash / orientation
 
-		int trashCount = 3;
+		int trashCount = 5;
 
 		for (int i = 0; i < trashCount - 1; i++) {
 
@@ -277,6 +300,15 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (i == 0) {
 				temp.setPosition(new Vector2(1000, 500));
 			}
+
+			if (i == 1) {
+				temp.setPosition(new Vector2(1000, 700));
+			}
+
+			if (i == 2) {
+				temp.setPosition(new Vector2(1000, 300));
+			}
+
 
 			temp.setActiveTrash(activeTrash);
 			platform.setActiveTrash(activeTrash);
