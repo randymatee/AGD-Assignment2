@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public abstract class Entity implements ApplicationListener {
 
@@ -74,10 +75,15 @@ public abstract class Entity implements ApplicationListener {
 
         setCurrentFrame((TextureRegion) getAnimation().getKeyFrame(getAnimationStateTime(), true));
 
+        if (camera != null) {
+            getSpriteBatch().setProjectionMatrix(camera.combined);
+        }
 
         getSpriteBatch().begin();
         getSpriteBatch().draw(getCurrentFrame(), getPosition().x, getPosition().y, getSpriteWidth(), getSpriteHeight());
         getSpriteBatch().end();
+
+
 
     }
 
@@ -215,4 +221,11 @@ public abstract class Entity implements ApplicationListener {
     public void setStartingPositon(Vector2 startingPositon) {
         this.startingPositon = startingPositon;
     }
+
+    private OrthographicCamera camera;
+
+    public void setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+    }
+
 }

@@ -54,8 +54,8 @@ public class Player extends Entity implements ApplicationListener {
         speed = 450;
 
 
-        setSpriteHeight(150);
-        setSpriteWidth(150);
+        setSpriteHeight(32);
+        setSpriteWidth(32);
 
         hitboxDimensions = new Vector2(getSpriteWidth() / 2, getSpriteHeight() / 2);
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -82,6 +81,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		player = new Player();
 		player.create();
+
 
 		//create enemy -randy
 		//enemy = new Enemy();
@@ -177,6 +177,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera.setToOrtho(false, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 		camera.update();
 
+		player.setCamera(camera);
+
 		platform = new Platform();
 
 		newGame();
@@ -198,9 +200,6 @@ public class MyGdxGame extends ApplicationAdapter {
 			update();
 		}
 		ScreenUtils.clear(1, 0, 0, 1);
-
-
-
 
 
 

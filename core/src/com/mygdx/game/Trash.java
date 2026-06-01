@@ -73,8 +73,8 @@ public class Trash extends Entity implements ApplicationListener {
         setAnimation(new Animation(0.09f, getAnimationFrames()));
         setAnimationStateTime(0.0f);
         setPosition(new Vector2(500,500));
-        setSpriteHeight(100);
-        setSpriteWidth(100);
+        setSpriteHeight(32);
+        setSpriteWidth(32);
         activeTrash = null;
         player = null;
         collidedTrash = null;
