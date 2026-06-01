@@ -40,8 +40,8 @@ public class Enemy extends Entity implements ApplicationListener {
 
         speed = 450;
 
-        setSpriteHeight(200);
-        setSpriteWidth(200);
+        setSpriteHeight(100);
+        setSpriteWidth(100);
     }
 
 //    @Override

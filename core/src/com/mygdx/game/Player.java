@@ -16,6 +16,8 @@ public class Player extends Entity implements ApplicationListener {
     //for enemy when on contact
     private boolean dead = false;
 
+    private Vector2 hitboxDimensions;
+
 /*
     public Player(SpriteBatch spriteBatch,
                   Texture textureSheet,
@@ -52,8 +54,10 @@ public class Player extends Entity implements ApplicationListener {
         speed = 450;
 
 
-        setSpriteHeight(200);
-        setSpriteWidth(200);
+        setSpriteHeight(150);
+        setSpriteWidth(150);
+
+        hitboxDimensions = new Vector2(getSpriteWidth() / 2, getSpriteHeight() / 2);
 
     }
 
@@ -86,5 +90,13 @@ public class Player extends Entity implements ApplicationListener {
 
     public void setDead(boolean dead) {
         this.dead = dead;
+    }
+
+    public Vector2 getHitboxDimensions() {
+        return hitboxDimensions;
+    }
+
+    public void setHitboxDimensions(Vector2 hitboxDimensions) {
+        this.hitboxDimensions = hitboxDimensions;
     }
 }
