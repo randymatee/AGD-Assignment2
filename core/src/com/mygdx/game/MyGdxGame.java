@@ -142,11 +142,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
-		Vector2 level1EnemyPos1 = new Vector2(1500, row1Height);
-		Vector2 level1EnemyPos2 = new Vector2(700, 600 );
+		Vector2 level1EnemyPos1 = new Vector2(600, row1Height);
+		Vector2 level1EnemyPos2 = new Vector2(1300, row1Height );
 
 		level1EnemyPos.add(level1EnemyPos1);
-		//level1EnemyPos.add(level1EnemyPos2);
+		level1EnemyPos.add(level1EnemyPos2);
 
 
 
@@ -200,17 +200,23 @@ public class MyGdxGame extends ApplicationAdapter {
 		ScreenUtils.clear(1, 0, 0, 1);
 
 
-		//camera.position.y = Constants.WORLD_HEIGHT / 2f;
-
-		//camera.update();
 
 
+
+
+		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
+		camera.position.y = Constants.WORLD_HEIGHT / 2f;
+		camera.update();
 		platform.render(camera, batch);
-
-		player.render();
-		//camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
-
 		activeLevel.render();
+		player.render();
+
+
+
+
+
+
+
 
 		//enemy.render();
 
