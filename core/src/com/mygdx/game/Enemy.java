@@ -18,7 +18,6 @@ import com.badlogic.gdx.math.collision.Ray;
 public class Enemy extends Entity implements ApplicationListener {
     private float speed;
 
-
     private Player player;
 
     @Override

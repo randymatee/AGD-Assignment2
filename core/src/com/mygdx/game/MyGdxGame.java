@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.mygdx.game.world.Level;
 import com.mygdx.game.world.Platform;
 import com.mygdx.game.world.Constants;
 import java.awt.Button;
@@ -20,6 +21,7 @@ import java.security.UnresolvedPermission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -30,7 +32,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture img;
 	private Player player;
 
-	private Enemy enemy;
+	//private Enemy enemy;
 
 	private DPadButton leftButton;
 	private DPadButton rightButton;
@@ -57,6 +59,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private Platform platform;
 
+	private List<Level> levels;
+
+	private Level level1;
+
+	private Level activeLevel;
+
+
+
 
 
 
@@ -74,8 +84,38 @@ public class MyGdxGame extends ApplicationAdapter {
 		player.create();
 
 		//create enemy -randy
-		enemy = new Enemy();
-		enemy.create();
+		//enemy = new Enemy();
+		//enemy.create();
+
+
+		List<Vector2> level1Row1 = new ArrayList<Vector2>();
+		level1Row1.add(new Vector2(100, 500));
+		level1Row1.add(new Vector2(200, 500));
+		level1Row1.add(new Vector2(300, 500));
+		level1Row1.add(new Vector2(400, 500));
+
+
+		List<Vector2> level1Row2 = new ArrayList<Vector2>();
+		level1Row2.add(new Vector2(100, 700));
+		level1Row2.add(new Vector2(200, 700));
+		level1Row2.add(new Vector2(300, 700));
+		level1Row2.add(new Vector2(400, 700));
+
+
+		List<List<Vector2>> level1TrashPos = new ArrayList<List<Vector2>>();
+
+		level1TrashPos.add(level1Row1);
+		level1TrashPos.add(level1Row2);
+
+
+		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
+		Vector2 level1EnemyPos1 = new Vector2(600, 600);
+		Vector2 level1EnemyPos2 = new Vector2(700, 600 );
+
+		level1EnemyPos.add(level1EnemyPos1);
+		level1EnemyPos.add(level1EnemyPos2);
+
+
 
 
 		float buttonSize = Gdx.graphics.getHeight() * 0.1f;
@@ -110,7 +150,13 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		gameState = GameState.PLAYING;
 
+		levels = new ArrayList<>();
 
+		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, platform, this);
+		level1.create();
+		levels.add(level1);
+		activeLevel = level1;
+		activeTrash = activeLevel.getTrash();
 	}
 
 	@Override
@@ -128,19 +174,21 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		player.render();
 
-		enemy.render();
+		activeLevel.render();
+
+		//enemy.render();
 
 		//camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
 
 		for (DPadButton button : dPadButtons) {
 			button.render();
 		}
-		if (activeTrash != null) {
+		//if (activeTrash != null) {
 
-			for (Trash trash: activeTrash) {
-				trash.render();
-			}
-		}
+			//for (Trash trash: activeTrash) {
+				//trash.render();
+			//}
+
 
 
 		/*
@@ -293,24 +341,31 @@ public class MyGdxGame extends ApplicationAdapter {
 			boolean colliding = platform.doesRectCollideWithMap(positionToMove.x, positionToMove.y,
 							16,16);
 
-			Sprite enemySprite = new Sprite(
-					enemy.getCurrentFrame(),
-					(int) enemy.getPosition().x,
-					(int) enemy.getPosition().y,
-					enemy.getSpriteWidth(),
-					enemy.getSpriteHeight()
-			);
 
-			enemySprite.setPosition(enemy.getPosition().x, enemy.getPosition().y);
 
-			if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
-				player.setDead(true);
-				gameState = GameState.FAIL;
-				System.out.println("Player died!");
+			for (Enemy enemy: activeLevel.getEnemies()) {
+				Sprite enemySprite = new Sprite(
+						enemy.getCurrentFrame(),
+						(int) enemy.getPosition().x,
+						(int) enemy.getPosition().y,
+						enemy.getSpriteWidth(),
+						enemy.getSpriteHeight()
+				);
+				enemySprite.setPosition(enemy.getPosition().x, enemy.getPosition().y);
+
+				if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
+					player.setDead(true);
+					gameState = GameState.FAIL;
+					System.out.println("Player died!");
+				}
+
 			}
 
-			if (!colliding) {
-				//player.setPosition(positionToMove);
+
+
+
+			if (colliding) {
+				player.setPosition(preMovePosition);
 				//player.render();
 				System.out.println("collision detected");
 
