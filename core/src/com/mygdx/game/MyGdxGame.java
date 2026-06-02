@@ -69,6 +69,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
+
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
@@ -79,6 +80,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		upButtonTexture = new Texture(Gdx.files.internal("Up_Key.png"));
 		downButtonTexture = new Texture(Gdx.files.internal("Down_Key.png"));
 
+
+		int trashHeight = 44;
+		int trashWidth = 44;
+		int padding = 4;
+
 		player = new Player();
 		player.create();
 
@@ -87,51 +93,141 @@ public class MyGdxGame extends ApplicationAdapter {
 		//enemy = new Enemy();
 		//enemy.create();
 
-		int row1Height = 500;
+
+		int row1Height = 225;
+		int row0Height = row1Height + trashHeight + padding;
+		int rowMinus1Height = row0Height + trashHeight + padding;
+
+		List<Vector2> level1RowMinusOne = new ArrayList<Vector2>();
+		level1RowMinusOne.add(new Vector2(1000 + trashWidth * 4, rowMinus1Height));
+		level1RowMinusOne.add(new Vector2(1400 + trashWidth, rowMinus1Height));
+
+
+
+
+
+		List<Vector2> level1Row0 = new ArrayList<Vector2>();
+		level1Row0.add(new Vector2(1000 + trashWidth * 3, row0Height));
+		level1Row0.add(new Vector2(1400, row0Height));
+
+
+
+
+
+
 		List<Vector2> level1Row1 = new ArrayList<Vector2>();
-		level1Row1.add(new Vector2(700, row1Height));
-		level1Row1.add(new Vector2(800, row1Height));
-		//level1Row1.add(new Vector2(300, row1Height));
-		//level1Row1.add(new Vector2(400, row1Height));
+		level1Row1.add(new Vector2(250, row1Height));
+		level1Row1.add(new Vector2(250 + trashWidth, row1Height));
+		level1Row1.add(new Vector2(650, row1Height));
+		level1Row1.add(new Vector2(1000, row1Height));
+		level1Row1.add(new Vector2(1000 + trashHeight * 3, row1Height));
 
-		int row2Height = 400;
+		level1Row1.add(new Vector2(1400, row1Height));
+
+
+
+
+		int row2Height = row1Height - trashHeight - padding ;
 		List<Vector2> level1Row2 = new ArrayList<Vector2>();
-		level1Row2.add(new Vector2(700, row2Height));
-		level1Row2.add(new Vector2(800, row2Height));
-		//level1Row2.add(new Vector2(300, row2Height));
-		//level1Row2.add(new Vector2(400, row2Height));
+		level1Row2.add(new Vector2(250, row2Height));
+		level1Row2.add(new Vector2(250 + trashWidth, row2Height));
+		level1Row2.add(new Vector2(650, row2Height));
+		level1Row2.add(new Vector2(650 + trashWidth, row2Height));
+		level1Row2.add(new Vector2(1000 + trashWidth, row2Height));
+		level1Row2.add(new Vector2(1000 + trashWidth * 2, row2Height));
+		level1Row2.add(new Vector2(1000 + trashWidth * 3, row2Height));
+		level1Row2.add(new Vector2(1000 + trashWidth * 5, row2Height));
+
+		level1Row2.add(new Vector2(1400 + trashWidth, row2Height));
+		level1Row2.add(new Vector2(1400 + trashWidth * 2, row2Height));
+		level1Row2.add(new Vector2(1400 + trashWidth * 3, row2Height));
 
 
-		int row3Height = 300;
+
+
+
+
+
+
+		int row3Height = row2Height - trashHeight - padding ;
 
 		List<Vector2> level1Row3 = new ArrayList<Vector2>();
-		level1Row2.add(new Vector2(700, row3Height));
-		level1Row2.add(new Vector2(800, row3Height));
-		//level1Row2.add(new Vector2(300, row3Height));
-		//level1Row2.add(new Vector2(400, row3Height));
+		level1Row3.add(new Vector2(250, row3Height));
+		level1Row3.add(new Vector2(250 + trashWidth, row3Height));
+		level1Row3.add(new Vector2(650, row3Height));
+		level1Row3.add(new Vector2(650 + trashWidth, row3Height));
+
+		level1Row3.add(new Vector2(1000, row3Height));
+		level1Row3.add(new Vector2(1000 + trashWidth, row3Height));
+		level1Row3.add(new Vector2(1000 + trashWidth * 5, row3Height));
+		level1Row3.add(new Vector2(1000 + trashWidth * 2, row3Height));
+		level1Row3.add(new Vector2(1000 + trashWidth * 3, row3Height));
+
+		level1Row3.add(new Vector2(1400, row3Height));
+		level1Row3.add(new Vector2(1400 + trashWidth * 2, row3Height));
+		//level1Row3.add(new Vector2(1400 + trashWidth * 3, row3Height));
 
 
-		int row4Height = 200;
+
+
+
+		int row4Height = row3Height - trashHeight - padding;
 
 
 		List<Vector2> level1Row4 = new ArrayList<Vector2>();
-		level1Row2.add(new Vector2(700, row4Height));
-		level1Row2.add(new Vector2(800, row4Height));
-		//level1Row2.add(new Vector2(300, row4Height));
-		//level1Row2.add(new Vector2(400, row4Height));
+		level1Row4.add(new Vector2(250 + trashWidth, row4Height));
+		level1Row4.add(new Vector2(500, row4Height));
+		level1Row4.add(new Vector2(650, row4Height));
+		level1Row4.add(new Vector2(650 + trashWidth, row4Height));
+		level1Row4.add(new Vector2(1000 + trashWidth, row4Height));
+		level1Row4.add(new Vector2(1000 + trashWidth * 5, row4Height));
 
-		int row5Height = 100;
+		level1Row4.add(new Vector2(1400, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 2, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 3, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 6, row4Height));
+
+
+
+
+
+
+
+		//level1Row4.add(new Vector2(1000, row4Height));
+
+
+
+		int row5Height = row4Height - trashHeight - padding ;
 		List<Vector2> level1Row5 = new ArrayList<Vector2>();
-		level1Row2.add(new Vector2(700, row5Height));
-		level1Row2.add(new Vector2(1200, row5Height));
-		//level1Row2.add(new Vector2(300, row5Height));
-		//level1Row2.add(new Vector2(400, row5Height));
+		level1Row5.add(new Vector2(250, row5Height));
+		level1Row5.add(new Vector2(250 + trashWidth, row5Height));
+		level1Row5.add(new Vector2(650, row5Height));
+		level1Row5.add(new Vector2(650 + trashWidth, row5Height));
+		level1Row5.add(new Vector2(1000, row5Height));
+		level1Row5.add(new Vector2(1000 + trashWidth, row5Height));
+		level1Row5.add(new Vector2(1000 + trashWidth * 2, row5Height));
+		//level1Row5.add(new Vector2(1000 + trashWidth * 3, row5Height));
+		//level1Row5.add(new Vector2(1000 + trashWidth * 4, row5Height));
+		level1Row5.add(new Vector2(1000 + trashWidth * 5, row5Height));
+
+		level1Row5.add(new Vector2(1400, row5Height));
+		level1Row5.add(new Vector2(1400 + trashWidth * 2, row5Height));
+
+		//TODO: Temporary because no tile collison
+		level1Row5.add(new Vector2(1400 + trashWidth, row5Height - trashHeight));
+
+
+
+
 
 
 
 
 		List<List<Vector2>> level1TrashPos = new ArrayList<List<Vector2>>();
 
+		level1TrashPos.add(level1RowMinusOne);
+
+		level1TrashPos.add(level1Row0);
 		level1TrashPos.add(level1Row1);
 		level1TrashPos.add(level1Row2);
 		level1TrashPos.add(level1Row3);
@@ -142,11 +238,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
-		Vector2 level1EnemyPos1 = new Vector2(600, row1Height);
-		Vector2 level1EnemyPos2 = new Vector2(1300, row1Height );
+		Vector2 level1EnemyPos1 = new Vector2(250 - trashWidth, row1Height + 15);
+		Vector2 level1EnemyPos2 = new Vector2(500 + trashWidth, row1Height + 15);
+		Vector2 level1EnemyPos3 = new Vector2(650 + trashWidth * 2, row3Height + 15);
+
+
+
 
 		level1EnemyPos.add(level1EnemyPos1);
 		level1EnemyPos.add(level1EnemyPos2);
+		level1EnemyPos.add(level1EnemyPos3);
 
 
 
@@ -340,6 +441,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			for (Trash trash: activeTrash) {
 				Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
 				trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
+				trashSprite.setBounds(trash.getPosition().x, trash.getPosition().y, trash.getHitboxDimensions().x, trash.getHitboxDimensions().y);
+
 
 
 				if (playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {

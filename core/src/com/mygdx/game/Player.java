@@ -43,7 +43,7 @@ public class Player extends Entity implements ApplicationListener {
         setTextureRows(1);
         setTextureCols(1);
         setAnimationFrames(new TextureRegion[1 * 1]);
-        setStartingPositon(new Vector2(100, 100));
+        setStartingPositon(new Vector2(1300, 100));
 
 
         parseSprite(getTextureSheet(), getAnimationFrames(), 1, 1);
@@ -51,13 +51,13 @@ public class Player extends Entity implements ApplicationListener {
         setAnimation(new Animation(0.09f, getAnimationFrames()));
         setAnimationStateTime(0.0f);
         setPosition(getStartingPositon());
-        speed = 450;
+        speed = 150;
 
 
-        setSpriteHeight(32);
-        setSpriteWidth(32);
+        setSpriteHeight(45);
+        setSpriteWidth(45);
 
-        hitboxDimensions = new Vector2(getSpriteWidth() / 2, getSpriteHeight() / 2);
+        hitboxDimensions = new Vector2(getSpriteWidth() / 2f, getSpriteHeight() / 2f);
 
     }
 

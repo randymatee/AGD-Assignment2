@@ -46,6 +46,8 @@ public class Trash extends Entity implements ApplicationListener {
     private boolean hasPushBeenCalled = false;
     private Vector2 pushPosition;
 
+    private Vector2 hitboxDimensions;
+
 
     /*
     public Trash(SpriteBatch spriteBatch, Texture textureSheet,
@@ -73,8 +75,8 @@ public class Trash extends Entity implements ApplicationListener {
         setAnimation(new Animation(0.09f, getAnimationFrames()));
         setAnimationStateTime(0.0f);
         setPosition(new Vector2(500,500));
-        setSpriteHeight(32);
-        setSpriteWidth(32);
+        setSpriteHeight(44);
+        setSpriteWidth(44);
         activeTrash = null;
         player = null;
         collidedTrash = null;
@@ -85,6 +87,9 @@ public class Trash extends Entity implements ApplicationListener {
         trashToCheckCollide = new ArrayList<Trash>();
         collideSprites = new ArrayList<Sprite>();
         pushPosition = null;
+
+        hitboxDimensions = new Vector2(getSpriteWidth() / 2, getSpriteHeight() / 2);
+
 
     }
 
@@ -138,13 +143,14 @@ public class Trash extends Entity implements ApplicationListener {
                         isPushing = false;
                         player.setCanPush(true);
                     }
-
+;
 
                 }
                 */
 
         Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int) this.getPosition().x, (int) this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
         ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
+        //ownSprite.setBounds(this.getPosition().x, this.getPosition().y, this.getHitboxDimensions().x, getHitboxDimensions().y);
 
         for (int i = 0; i < trashToCheckCollide.size(); i++) {
             Trash trash = trashToCheckCollide.get(i);
@@ -271,6 +277,8 @@ public class Trash extends Entity implements ApplicationListener {
 
             Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int) this.getPosition().x, (int) this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
             ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
+            //ownSprite.setBounds(this.getPosition().x, this.getPosition().y, this.getHitboxDimensions().x, getHitboxDimensions().y);
+
 
             Ray collisionRay = Game.createRay(this.getPosition().x + this.getSpriteWidth() / 2, this.getPosition().y + this.getSpriteHeight() / 2, directionOfMovement);
 
@@ -284,6 +292,8 @@ public class Trash extends Entity implements ApplicationListener {
             for (Trash trash : activeTrash) {
                 Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int) trash.getPosition().x, (int) trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
                 trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
+                //trashSprite.setBounds(trash.getPosition().x, trash.getPosition().y, trash.getHitboxDimensions().x, trash.getHitboxDimensions().y);
+
 
 
                 BoundingBox spriteBox = new BoundingBox(new Vector3(trash.getPosition().x, trash.getPosition().y, -1),
@@ -333,6 +343,14 @@ public class Trash extends Entity implements ApplicationListener {
 
     public void setPushPosition(Vector2 pushPosition) {
         this.pushPosition = pushPosition;
+    }
+
+    public Vector2 getHitboxDimensions() {
+        return hitboxDimensions;
+    }
+
+    public void setHitboxDimensions(Vector2 hitboxDimensions) {
+        this.hitboxDimensions = hitboxDimensions;
     }
 }
 
