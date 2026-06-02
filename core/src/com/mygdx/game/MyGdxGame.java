@@ -123,6 +123,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row1.add(new Vector2(1000 + trashHeight * 3, row1Height));
 
 		level1Row1.add(new Vector2(1400, row1Height));
+		level1Row1.add(new Vector2(1400 + trashWidth * 6, row1Height));
+		level1Row1.add(new Vector2(1400 + trashWidth * 7, row1Height));
+
+
+
 
 
 
@@ -141,6 +146,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row2.add(new Vector2(1400 + trashWidth, row2Height));
 		level1Row2.add(new Vector2(1400 + trashWidth * 2, row2Height));
 		level1Row2.add(new Vector2(1400 + trashWidth * 3, row2Height));
+		level1Row2.add(new Vector2(1400 + trashWidth * 6, row2Height));
+		level1Row2.add(new Vector2(1400 + trashWidth * 7, row2Height));
+
 
 
 
@@ -165,6 +173,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		level1Row3.add(new Vector2(1400, row3Height));
 		level1Row3.add(new Vector2(1400 + trashWidth * 2, row3Height));
+		level1Row3.add(new Vector2(1400 + trashWidth * 6, row3Height));
+		level1Row3.add(new Vector2(1400 + trashWidth * 7, row3Height));
+
+
 		//level1Row3.add(new Vector2(1400 + trashWidth * 3, row3Height));
 
 
@@ -186,6 +198,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row4.add(new Vector2(1400 + trashWidth * 2, row4Height));
 		level1Row4.add(new Vector2(1400 + trashWidth * 3, row4Height));
 		level1Row4.add(new Vector2(1400 + trashWidth * 6, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 7, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 8, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 9, row4Height));
+
+
 
 
 
@@ -241,6 +258,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Vector2 level1EnemyPos1 = new Vector2(250 - trashWidth, row1Height + 15);
 		Vector2 level1EnemyPos2 = new Vector2(500 + trashWidth, row1Height + 15);
 		Vector2 level1EnemyPos3 = new Vector2(650 + trashWidth * 2, row3Height + 15);
+		Vector2 level1EnemyPos4 = new Vector2(1400 + trashWidth * 5, row5Height - 2);
+
 
 
 
@@ -248,6 +267,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1EnemyPos.add(level1EnemyPos1);
 		level1EnemyPos.add(level1EnemyPos2);
 		level1EnemyPos.add(level1EnemyPos3);
+		level1EnemyPos.add(level1EnemyPos4);
+
 
 
 
