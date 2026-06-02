@@ -39,13 +39,12 @@ public class DPadButton implements ApplicationListener {
     private String direction;
 
 
-    public DPadButton(float posX, float posY, float height, float width, Texture texture, String direction) {
+    public DPadButton(float posX, float posY, float height, float width, Texture texture) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
         this.texture = texture;
-        this.direction = direction;
 
 
     }

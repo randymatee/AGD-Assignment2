@@ -17,18 +17,21 @@ public class Level implements ApplicationListener {
 
     private List<Enemy> enemies;
 
-    private List<List<Vector2>> trashPositionsbyRow;
+    private final List<List<Vector2>> trashPositionsbyRow;
 
-    private List<Vector2> enemyPositions;
+    private final List<Vector2> enemyPositions;
 
-    private Vector2 playerStartingPosition;
-    private int trashCount;
+    private final Vector2 playerStartingPosition;
 
-    private Player player;
+    private final Player player;
 
-    private Platform platform;
+    private final Platform platform;
 
-    private MyGdxGame game;
+    private final MyGdxGame game;
+
+
+
+    private final int endPosition;
 
     public Level(List<List<Vector2>> trashPositionsbyRow, List<Vector2> enemyPositions, Vector2 playerStartingPosition, Player player,
                  Platform platform, MyGdxGame game) {
@@ -39,12 +42,8 @@ public class Level implements ApplicationListener {
         this.platform = platform;
         this.player = player;
         this.game = game;
+        this.endPosition = 1925;
 
-        trashCount = 0;
-
-        for (List<Vector2> trashList: trashPositionsbyRow) {
-            trashCount += trashList.size();
-        }
 
         trash = new ArrayList<Trash>();
         enemies = new ArrayList<>();
@@ -52,14 +51,12 @@ public class Level implements ApplicationListener {
     }
 
 
-
-
     @Override
     public void create() {
 
 
-        for (List<Vector2> list: trashPositionsbyRow) {
-            for (Vector2 position: list) {
+        for (List<Vector2> list : trashPositionsbyRow) {
+            for (Vector2 position : list) {
 
                 Trash temp = new Trash();
                 temp.create();
@@ -77,7 +74,7 @@ public class Level implements ApplicationListener {
 
         }
 
-        for (Vector2 position: enemyPositions) {
+        for (Vector2 position : enemyPositions) {
 
             Enemy temp = new Enemy();
             temp.create();
@@ -117,7 +114,6 @@ public class Level implements ApplicationListener {
          */
 
 
-
     }
 
     @Override
@@ -128,11 +124,11 @@ public class Level implements ApplicationListener {
     @Override
     public void render() {
 
-        for (Trash temp: trash) {
+        for (Trash temp : trash) {
             temp.render();
 
         }
-        for (Enemy enemy: enemies) {
+        for (Enemy enemy : enemies) {
             enemy.render();
         }
 
@@ -151,23 +147,26 @@ public class Level implements ApplicationListener {
     @Override
     public void dispose() {
 
+        for (Trash temp : trash) {
+            temp.dispose();
+        }
+        trash.clear();
+
+        for (Enemy enemy : enemies) {
+            enemy.dispose();
+        }
+        enemies.clear();
+
     }
 
     public Vector2 getPlayerStartingPosition() {
         return playerStartingPosition;
     }
 
-    public void setPlayerStartingPosition(Vector2 playerStartingPosition) {
-        this.playerStartingPosition = playerStartingPosition;
-    }
-
     public List<Vector2> getEnemyPositions() {
         return enemyPositions;
     }
 
-    public void setEnemyPositions(List<Vector2> enemyPositions) {
-        this.enemyPositions = enemyPositions;
-    }
 
     public List<Enemy> getEnemies() {
         return enemies;
@@ -189,7 +188,7 @@ public class Level implements ApplicationListener {
         return trashPositionsbyRow;
     }
 
-    public void setTrashPositionsbyRow(List<List<Vector2>> trashPositionsbyRow) {
-        this.trashPositionsbyRow = trashPositionsbyRow;
+    public int getEndPosition() {
+        return endPosition;
     }
 }

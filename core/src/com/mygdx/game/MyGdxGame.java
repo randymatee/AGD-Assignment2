@@ -47,6 +47,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture rightButtonTexture;
 	private Texture upButtonTexture;
 	private Texture downButtonTexture;
+	private Texture restartButtonTexture;
 
 	private List<Trash> activeTrash;
 
@@ -66,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Level level1;
 
 	private Level activeLevel;
-
+	private DPadButton restartButton;
 
 	SpriteBatch uiBatch;
 	BitmapFont font;
@@ -97,6 +98,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		rightButtonTexture = new Texture(Gdx.files.internal("Right_Key.png"));
 		upButtonTexture = new Texture(Gdx.files.internal("Up_Key.png"));
 		downButtonTexture = new Texture(Gdx.files.internal("Down_Key.png"));
+		restartButtonTexture = new Texture(Gdx.files.internal("restart_key.png"));
 
 
 		int trashHeight = 44;
@@ -121,15 +123,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1RowMinusOne.add(new Vector2(1400 + trashWidth, rowMinus1Height));
 
 
-
-
-
 		List<Vector2> level1Row0 = new ArrayList<Vector2>();
 		level1Row0.add(new Vector2(1000 + trashWidth * 3, row0Height));
 		level1Row0.add(new Vector2(1400, row0Height));
-
-
-
 
 
 
@@ -141,7 +137,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row1.add(new Vector2(1000 + trashHeight * 3, row1Height));
 
 		level1Row1.add(new Vector2(1400, row1Height));
-
+		level1Row1.add(new Vector2(1400 + trashWidth * 6, row1Height));
+		level1Row1.add(new Vector2(1400 + trashWidth * 7, row1Height));
 
 
 
@@ -159,10 +156,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row2.add(new Vector2(1400 + trashWidth, row2Height));
 		level1Row2.add(new Vector2(1400 + trashWidth * 2, row2Height));
 		level1Row2.add(new Vector2(1400 + trashWidth * 3, row2Height));
-
-
-
-
+		level1Row2.add(new Vector2(1400 + trashWidth * 6, row2Height));
+		level1Row2.add(new Vector2(1400 + trashWidth * 7, row2Height));
 
 
 
@@ -183,10 +178,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		level1Row3.add(new Vector2(1400, row3Height));
 		level1Row3.add(new Vector2(1400 + trashWidth * 2, row3Height));
+		level1Row3.add(new Vector2(1400 + trashWidth * 6, row3Height));
+		level1Row3.add(new Vector2(1400 + trashWidth * 7, row3Height));
+
+
 		//level1Row3.add(new Vector2(1400 + trashWidth * 3, row3Height));
-
-
-
 
 
 		int row4Height = row3Height - trashHeight - padding;
@@ -204,10 +200,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row4.add(new Vector2(1400 + trashWidth * 2, row4Height));
 		level1Row4.add(new Vector2(1400 + trashWidth * 3, row4Height));
 		level1Row4.add(new Vector2(1400 + trashWidth * 6, row4Height));
-
-
-
-
+		level1Row4.add(new Vector2(1400 + trashWidth * 7, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 8, row4Height));
+		level1Row4.add(new Vector2(1400 + trashWidth * 9, row4Height));
 
 
 
@@ -235,12 +230,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row5.add(new Vector2(1400 + trashWidth, row5Height - trashHeight));
 
 
-
-
-
-
-
-
 		List<List<Vector2>> level1TrashPos = new ArrayList<List<Vector2>>();
 
 		level1TrashPos.add(level1RowMinusOne);
@@ -253,28 +242,28 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1TrashPos.add(level1Row5);
 
 
-
-
 		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
 		Vector2 level1EnemyPos1 = new Vector2(250 - trashWidth, row1Height + 15);
 		Vector2 level1EnemyPos2 = new Vector2(500 + trashWidth, row1Height + 15);
 		Vector2 level1EnemyPos3 = new Vector2(650 + trashWidth * 2, row3Height + 15);
-
-
+		Vector2 level1EnemyPos4 = new Vector2(1400 + trashWidth * 5, row5Height - 2);
 
 
 		level1EnemyPos.add(level1EnemyPos1);
 		level1EnemyPos.add(level1EnemyPos2);
 		level1EnemyPos.add(level1EnemyPos3);
-
-
+		level1EnemyPos.add(level1EnemyPos4);
 
 
 		float buttonSize = Gdx.graphics.getHeight() * 0.1f;
-		leftButton = new DPadButton(20, 100, buttonSize, buttonSize, leftButtonTexture, "left");
-		rightButton = new DPadButton(280, 100, buttonSize, buttonSize, rightButtonTexture, "right");
-		downButton = new DPadButton(150, 20, buttonSize, buttonSize, downButtonTexture, "down");
-		upButton = new DPadButton(150, 180, buttonSize, buttonSize, upButtonTexture, "up");
+		leftButton = new DPadButton(20, 100, buttonSize, buttonSize, leftButtonTexture);
+		rightButton = new DPadButton(280, 100, buttonSize, buttonSize, rightButtonTexture);
+		downButton = new DPadButton(150, 20, buttonSize, buttonSize, downButtonTexture);
+		upButton = new DPadButton(150, 180, buttonSize, buttonSize, upButtonTexture);
+
+		restartButton = new DPadButton(1800, 950, buttonSize, buttonSize, restartButtonTexture);
+		restartButton.create();
+
 
 		dPadButtons = new DPadButton[]{leftButton, rightButton, upButton, downButton};
 
@@ -333,6 +322,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		update();
 		ScreenUtils.clear(1, 0, 0, 1);
 
+
 		boolean isTouched = Gdx.input.isTouched();
 
 		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
@@ -341,6 +331,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		platform.render(camera, batch);
 		activeLevel.render();
 		player.render();
+		restartButton.render();
 
 
 
@@ -417,11 +408,36 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void update() {
+
+		if (gameState == GameState.SUCCESS) {
+			Gdx.app.exit();
+
+		}
+
+		if (player.getPosition().x > activeLevel.getEndPosition()) {
+			gameState = GameState.SUCCESS;
+		}
+
 		boolean isTouched = Gdx.input.isTouched();
 
 		int touchX = Gdx.input.getX();
 		int touchY = Gdx.input.getY();
 		DPadButton touchedButton = null;
+		int gameHeight = Gdx.graphics.getHeight();
+
+
+		if (isTouched) {
+			if ((touchX >= restartButton.getPosX() && touchX <= restartButton.getPosX() + restartButton.getWidth()) &&
+					(gameHeight - touchY >= restartButton.getPosY() && gameHeight - touchY <= restartButton.getPosY() + restartButton.getHeight())) {
+
+				RestartGame();
+				return;
+
+
+			}
+
+		}
+
 
 		boolean keyPressed = false;
 		if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) ||
@@ -433,7 +449,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (keyPressed || isTouched) {
 
 			if (isTouched) {
-				int gameHeight = Gdx.graphics.getHeight();
 				for (DPadButton button : dPadButtons) {
 
 					if ((touchX >= button.getPosX() && touchX <= button.getPosX() + button.getWidth()) &&
@@ -656,6 +671,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		Ray collisionRay = new Ray(new Vector3(x,y,0), new Vector3(rayDirection));
 		return collisionRay;
+	}
+
+
+	public void RestartGame() {
+		activeLevel.dispose();
+		player.setPosition(player.getStartingPositon());
+		activeLevel.create();
+
 	}
 
 }
