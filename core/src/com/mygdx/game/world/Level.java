@@ -29,6 +29,10 @@ public class Level implements ApplicationListener {
 
     private final MyGdxGame game;
 
+
+
+    private final int endPosition;
+
     public Level(List<List<Vector2>> trashPositionsbyRow, List<Vector2> enemyPositions, Vector2 playerStartingPosition, Player player,
                  Platform platform, MyGdxGame game) {
 
@@ -38,6 +42,8 @@ public class Level implements ApplicationListener {
         this.platform = platform;
         this.player = player;
         this.game = game;
+        this.endPosition = 1925;
+
 
         trash = new ArrayList<Trash>();
         enemies = new ArrayList<>();
@@ -180,5 +186,9 @@ public class Level implements ApplicationListener {
 
     public List<List<Vector2>> getTrashPositionsbyRow() {
         return trashPositionsbyRow;
+    }
+
+    public int getEndPosition() {
+        return endPosition;
     }
 }

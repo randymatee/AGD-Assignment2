@@ -348,6 +348,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public void update() {
 
+		if (gameState == GameState.SUCCESS) {
+			Gdx.app.exit();
+
+		}
+
+		if (player.getPosition().x > activeLevel.getEndPosition()) {
+			gameState = GameState.SUCCESS;
+		}
+
 		boolean isTouched = Gdx.input.isTouched();
 
 		int touchX = Gdx.input.getX();
