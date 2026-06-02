@@ -3,9 +3,12 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -65,7 +68,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Level activeLevel;
 
 
+	SpriteBatch uiBatch;
+	BitmapFont font;
+	Texture buttonTexture;
+	Texture squareButtonTexture;
 
+	//menu buttons
+	Rectangle playButton;
+	Rectangle exitButton;
+	Rectangle tryAgainButton;
+	Rectangle mainMenuButton;
 
 
 
@@ -73,8 +85,14 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
+		uiBatch = new SpriteBatch();
+		font = new BitmapFont();
+		font.getData().setScale(5.0f);
+		buttonTexture = new Texture("Button/buttonSquare_blue.png");
+		squareButtonTexture = new Texture("Button/buttonSquare_blue.png");
+		setupButtons();
 
-		img = new Texture("badlogic.jpg");
+
 		leftButtonTexture = new Texture(Gdx.files.internal("Left_Key.png"));
 		rightButtonTexture = new Texture(Gdx.files.internal("Right_Key.png"));
 		upButtonTexture = new Texture(Gdx.files.internal("Up_Key.png"));
@@ -294,15 +312,28 @@ public class MyGdxGame extends ApplicationAdapter {
 		activeLevel = level1;
 		activeTrash = activeLevel.getTrash();
 	}
+	//copied from my assignment 1
+	private void setupButtons() {
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+
+		float bw = w * 0.25f;
+		float bh = h * 0.1f;
+		float cx = w / 2f - bw / 2f;
+
+		playButton     = new Rectangle(cx, h * 0.55f, bw, bh);
+		exitButton     = new Rectangle(cx, h * 0.42f, bw, bh);
+		tryAgainButton = new Rectangle(cx, h * 0.48f, bw, bh);
+		mainMenuButton = new Rectangle(cx, h * 0.35f, bw, bh);
+	}
+
 
 	@Override
 	public void render() {
-		if (gameState == GameState.PLAYING) {
-			update();
-		}
+		update();
 		ScreenUtils.clear(1, 0, 0, 1);
 
-
+		boolean isTouched = Gdx.input.isTouched();
 
 		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
 		camera.position.y = Constants.WORLD_HEIGHT / 2f;
@@ -321,8 +352,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		//enemy.render();
 
 
-		for (DPadButton button : dPadButtons) {
-			button.render();
+		// Render D-Pad only when playing
+		if (gameState == GameState.PLAYING) {
+			for (DPadButton button : dPadButtons) {
+				button.render();
+			}
 		}
 		//if (activeTrash != null) {
 
@@ -346,7 +380,33 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		 */
 
+		//copied from my assignment 1, will probs use gamestate menu for later-randy
+		uiBatch.begin();
+		if (gameState == GameState.MENU) {
+			font.setColor(Color.WHITE);
+			font.draw(uiBatch, "BASIC ANDROID GAME", playButton.x - 20, playButton.y + playButton.height + 40);
+			uiBatch.draw(buttonTexture, playButton.x, playButton.y, playButton.width, playButton.height);
+			font.draw(uiBatch, "PLAY", playButton.x + playButton.width * 0.35f, playButton.y + playButton.height * 0.7f);
+			uiBatch.draw(buttonTexture, exitButton.x, exitButton.y, exitButton.width, exitButton.height);
+			font.draw(uiBatch, "EXIT", exitButton.x + exitButton.width * 0.37f, exitButton.y + exitButton.height * 0.7f);
 
+		} else if (gameState == GameState.FAIL) {
+			font.setColor(Color.RED);
+			font.draw(uiBatch, "GAME OVER", Gdx.graphics.getWidth() / 2f - 60, Gdx.graphics.getHeight() * 0.7f);
+			uiBatch.draw(buttonTexture, tryAgainButton.x, tryAgainButton.y, tryAgainButton.width, tryAgainButton.height);
+			font.setColor(Color.WHITE);
+			font.draw(uiBatch, "TRY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.25f, tryAgainButton.y + tryAgainButton.height * 0.7f);
+
+		} else if (gameState == GameState.SUCCESS) {
+			font.setColor(Color.GREEN);
+			font.draw(uiBatch, "YOU WIN!", Gdx.graphics.getWidth() / 2f - 50, Gdx.graphics.getHeight() * 0.7f);
+			uiBatch.draw(buttonTexture, tryAgainButton.x, tryAgainButton.y, tryAgainButton.width, tryAgainButton.height);
+			font.setColor(Color.WHITE);
+			font.draw(uiBatch, "PLAY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.22f, tryAgainButton.y + tryAgainButton.height * 0.7f);
+			uiBatch.draw(buttonTexture, mainMenuButton.x, mainMenuButton.y, mainMenuButton.width, mainMenuButton.height);
+			font.draw(uiBatch, "MAIN MENU", mainMenuButton.x + mainMenuButton.width * 0.22f, mainMenuButton.y + mainMenuButton.height * 0.7f);
+		}
+		uiBatch.end();
 	}
 
 	@Override
@@ -399,11 +459,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			float speedDelta = player.getSpeed() * Gdx.graphics.getDeltaTime();
 
 
-			if (touchedButton == null) {
+			if (touchedButton == null && !keyPressed) {
 				return;
 
 			}
-			else if (touchedButton == leftButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
+			
+			if (touchedButton == leftButton || Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
 				positionToMove = new Vector2(player.getPosition().x - speedDelta, player.getPosition().y);
 				pushDirection = PushDirection.LEFT;
                 newX -= player.getSpeed();
@@ -516,7 +577,25 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 
 			 */
-
+// -randy copied and pasted from my first assignment, basically logic for the buttons that pop up through the different states
+//		if (isTouched) {
+//			float touchX = Gdx.input.getX();
+//			float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+//
+//			if (gameState == GameState.MENU) {
+//				if (playButton.contains(touchX, touchY)) {
+//					gameState = GameState.PLAYING;
+//				} else if (exitButton.contains(touchX, touchY)) {
+//					Gdx.app.exit();
+//				}
+//
+//			} else if (gameState == GameState.FAIL) {
+//				if (tryAgainButton.contains(touchX, touchY)) startGame();
+//
+//			} else if (gameState == GameState.SUCCESS) {
+//				if (tryAgainButton.contains(touchX, touchY)) startGame();
+//				if (mainMenuButton.contains(touchX, touchY)) gameState = GameState.MENU;
+//			}
 
 		}
 	}
