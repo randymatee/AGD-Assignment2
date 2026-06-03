@@ -80,7 +80,20 @@ public class MyGdxGame extends ApplicationAdapter {
 	Rectangle tryAgainButton;
 	Rectangle mainMenuButton;
 
+	//copied from my assignment 1
+	private void setupButtons() {
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
 
+		float bw = w * 0.25f;
+		float bh = h * 0.1f;
+		float cx = w / 2f - bw / 2f;
+
+		playButton     = new Rectangle(cx, h * 0.55f, bw, bh);
+		exitButton     = new Rectangle(cx, h * 0.42f, bw, bh);
+		tryAgainButton = new Rectangle(cx, h * 0.48f, bw, bh);
+		mainMenuButton = new Rectangle(cx, h * 0.35f, bw, bh);
+	}
 
 
 	@Override
@@ -301,21 +314,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		activeLevel = level1;
 		activeTrash = activeLevel.getTrash();
 	}
-	//copied from my assignment 1
-	private void setupButtons() {
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-
-		float bw = w * 0.25f;
-		float bh = h * 0.1f;
-		float cx = w / 2f - bw / 2f;
-
-		playButton     = new Rectangle(cx, h * 0.55f, bw, bh);
-		exitButton     = new Rectangle(cx, h * 0.42f, bw, bh);
-		tryAgainButton = new Rectangle(cx, h * 0.48f, bw, bh);
-		mainMenuButton = new Rectangle(cx, h * 0.35f, bw, bh);
-	}
-
 
 	@Override
 	public void render() {
@@ -425,17 +423,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		DPadButton touchedButton = null;
 		int gameHeight = Gdx.graphics.getHeight();
 
+		if (gameState == GameState.FAIL) {
+			if (Gdx.input.justTouched()) {
+				float touchScreenX = Gdx.input.getX();
+				float touchScreenY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-		if (isTouched) {
-			if ((touchX >= restartButton.getPosX() && touchX <= restartButton.getPosX() + restartButton.getWidth()) &&
-					(gameHeight - touchY >= restartButton.getPosY() && gameHeight - touchY <= restartButton.getPosY() + restartButton.getHeight())) {
-
-				RestartGame();
-				return;
-
-
+				if (tryAgainButton.contains(touchScreenX, touchScreenY)) {
+					RestartGame();
+				}
 			}
 
+			return;
 		}
 
 
@@ -676,9 +674,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public void RestartGame() {
 		activeLevel.dispose();
-		player.setPosition(player.getStartingPositon());
+
+		player.setDead(false);
+		player.setCanPush(true);
+		player.setPosition(new Vector2(player.getStartingPositon()));
+
 		activeLevel.create();
 
+		activeTrash = activeLevel.getTrash();
+
+		gameState = GameState.PLAYING;
 	}
 
 }
