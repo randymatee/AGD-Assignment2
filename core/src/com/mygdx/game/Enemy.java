@@ -14,11 +14,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.math.collision.Ray;
+import com.mygdx.game.world.Platform;
+import java.util.List;
 
 public class Enemy extends Entity implements ApplicationListener {
     private float speed;
 
     private Player player;
+
+    private PushDirection moveDirection = PushDirection.LEFT;
+    private Platform platform;
+    private List<Trash> activeTrash;
 
     @Override
     public void create() {
@@ -35,19 +41,90 @@ public class Enemy extends Entity implements ApplicationListener {
 
         setAnimation(new Animation<TextureRegion>(0.15f, getAnimationFrames()));
         setAnimationStateTime(0.0f);
+        setCurrentFrame((TextureRegion) getAnimation().getKeyFrame(getAnimationStateTime(), true));
+
         setStartingPositon(new Vector2(500, 300));
         setPosition(getStartingPositon());
 
-        speed = 450;
+        speed = 100;
 
         setSpriteHeight(40);
         setSpriteWidth(40);
     }
 
-//    @Override
-//    public void update(){
-//
-//    }
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
+    }
+
+    public void setActiveTrash(List<Trash> activeTrash) {
+        this.activeTrash = activeTrash;
+    }
+
+    public void update() {
+        float speedDelta = speed * Gdx.graphics.getDeltaTime();
+
+        Vector2 nextPosition = new Vector2(getPosition());
+
+        if (moveDirection == PushDirection.LEFT) {
+            nextPosition.x -= speedDelta;
+        } else if (moveDirection == PushDirection.RIGHT) {
+            nextPosition.x += speedDelta;
+        }
+
+        boolean hitWall = false;
+
+        if (platform != null) {
+            hitWall = platform.doesRectCollideWithMap(
+                    nextPosition.x + 10,
+                    nextPosition.y + 10,
+                    20,
+                    20
+            );
+        }
+
+        boolean hitTrash = false;
+
+        if (activeTrash != null) {
+            Sprite enemySprite = new Sprite(
+                    getCurrentFrame(),
+                    (int) nextPosition.x,
+                    (int) nextPosition.y,
+                    getSpriteWidth(),
+                    getSpriteHeight()
+            );
+
+            enemySprite.setPosition(nextPosition.x, nextPosition.y);
+
+            for (Trash trash : activeTrash) {
+                Sprite trashSprite = new Sprite(
+                        trash.getCurrentFrame(),
+                        (int) trash.getPosition().x,
+                        (int) trash.getPosition().y,
+                        trash.getSpriteWidth(),
+                        trash.getSpriteHeight()
+                );
+
+                trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
+
+                if (enemySprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
+                    hitTrash = true;
+                    break;
+                }
+            }
+        }
+
+        if (hitWall || hitTrash) {
+            if (moveDirection == PushDirection.LEFT) {
+                moveDirection = PushDirection.RIGHT;
+            } else {
+                moveDirection = PushDirection.LEFT;
+            }
+
+            return;
+        }
+
+        setPosition(nextPosition);
+    }
 
 
 

@@ -457,6 +457,8 @@ public class MyGdxGame extends ApplicationAdapter {
 					}
 				}
 			}
+
+
 			// Gets the currently active sprite.
 			Sprite playerSprite = new Sprite(player.getCurrentFrame(), (int)player.getPosition().x, (int)player.getPosition().y, player.getSpriteWidth(), player.getSpriteHeight());
 			playerSprite.setPosition(player.getPosition().x, player.getPosition().y);

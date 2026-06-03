@@ -80,6 +80,8 @@ public class Level implements ApplicationListener {
             temp.create();
             temp.setCamera(game.getCamera());
             temp.setPosition(position);
+            temp.setPlatform(platform);
+            temp.setActiveTrash(trash);
             enemies.add(temp);
         }
 
@@ -129,6 +131,7 @@ public class Level implements ApplicationListener {
 
         }
         for (Enemy enemy : enemies) {
+            enemy.update();
             enemy.render();
         }
 
