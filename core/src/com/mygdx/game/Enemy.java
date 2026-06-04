@@ -22,7 +22,7 @@ public class Enemy extends Entity implements ApplicationListener {
 
     private Player player;
 
-    private PushDirection moveDirection = PushDirection.LEFT;
+    private PushDirection moveDirection = PushDirection.UP;
     private Platform platform;
     private List<Trash> activeTrash;
 
@@ -65,10 +65,10 @@ public class Enemy extends Entity implements ApplicationListener {
 
         Vector2 nextPosition = new Vector2(getPosition());
 
-        if (moveDirection == PushDirection.LEFT) {
-            nextPosition.x -= speedDelta;
-        } else if (moveDirection == PushDirection.RIGHT) {
-            nextPosition.x += speedDelta;
+        if (moveDirection == PushDirection.UP) {
+            nextPosition.y += speedDelta;
+        } else if (moveDirection == PushDirection.DOWN) {
+            nextPosition.y -= speedDelta;
         }
 
         boolean hitWall = false;
@@ -114,10 +114,10 @@ public class Enemy extends Entity implements ApplicationListener {
         }
 
         if (hitWall || hitTrash) {
-            if (moveDirection == PushDirection.LEFT) {
-                moveDirection = PushDirection.RIGHT;
+            if (moveDirection == PushDirection.UP) {
+                moveDirection = PushDirection.DOWN;
             } else {
-                moveDirection = PushDirection.LEFT;
+                moveDirection = PushDirection.UP;
             }
 
             return;
