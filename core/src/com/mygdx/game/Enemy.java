@@ -34,6 +34,8 @@ public class Enemy extends Entity implements ApplicationListener {
     private Platform platform;
     private List<Trash> activeTrash;
 
+    private boolean flipped = false;
+
     @Override
     public void create() {
         super.create();
@@ -124,6 +126,7 @@ public class Enemy extends Entity implements ApplicationListener {
                 }
             }
         }
+
 
         if (hitWall || hitTrash) {
             if (moveDirection == PushDirection.UP) {

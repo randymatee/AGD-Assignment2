@@ -175,8 +175,25 @@ public class Trash extends Entity implements ApplicationListener {
             this.setPushPosition(this.push(currentPushDirection, currentPushSpeed, true));
         }
         // Apply the new position calculated by push after collision has been checked.
+//        if (hasPushBeenCalled && this.pushPosition != null) {
+//            this.setPosition(pushPosition);
+//        }
         if (hasPushBeenCalled && this.pushPosition != null) {
-            this.setPosition(pushPosition);
+
+            boolean hitWall = Game.getActiveLevel().getPlatform().doesRectCollideWithMap(
+                    pushPosition.x,
+                    pushPosition.y,
+                    getSpriteWidth(),
+                    getSpriteHeight()
+            );
+
+            if (hitWall) {
+                isPushing = false;
+                player.setCanPush(true);
+                pushPosition = null;
+            } else {
+                this.setPosition(pushPosition);
+            }
         }
         hasPushBeenCalled = false;
         pushPosition = null;

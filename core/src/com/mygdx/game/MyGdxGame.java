@@ -103,6 +103,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	private boolean canPlayLevelSound = true;
 
+	public Level getActiveLevel() {
+		return activeLevel;
+	}
+
 	//copied from my assignment 1
 	private void setupButtons() {
 		float w = Gdx.graphics.getWidth();
@@ -520,7 +524,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		newGame();
 
-		gameState = GameState.PLAYING;
+		gameState = GameState.MENU;
 
 		levels = new ArrayList<>();
 
@@ -590,11 +594,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		 */
 
-		//copied from my assignment 1, will probs use gamestate menu for later-randy
 		uiBatch.begin();
 		if (gameState == GameState.MENU) {
 			font.setColor(Color.WHITE);
-			font.draw(uiBatch, "BASIC ANDROID GAME", playButton.x - 20, playButton.y + playButton.height + 40);
+			font.draw(uiBatch, "BROOMBA", playButton.x - 20, playButton.y + playButton.height + 100);
 			uiBatch.draw(buttonTexture, playButton.x, playButton.y, playButton.width, playButton.height);
 			font.draw(uiBatch, "PLAY", playButton.x + playButton.width * 0.35f, playButton.y + playButton.height * 0.7f);
 			uiBatch.draw(buttonTexture, exitButton.x, exitButton.y, exitButton.width, exitButton.height);
@@ -632,6 +635,26 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void update() {
+
+		if (gameState == GameState.MENU) {
+
+			if (Gdx.input.justTouched()) {
+
+				float touchX = Gdx.input.getX();
+				float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+				if (playButton.contains(touchX, touchY)) {
+					menuEnter.play(1.0f);
+					gameState = GameState.PLAYING;
+				}
+
+				if (exitButton.contains(touchX, touchY)) {
+					Gdx.app.exit();
+				}
+			}
+
+			return;
+		}
 
 		if (gameState == GameState.SUCCESS && canPlayLevelSound) {
 			levelComplete.play(1.0f);
@@ -849,15 +872,17 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-			/*
-			if (colliding) {
+			boolean playerMapColliding = activeLevel.getPlatform().doesRectCollideWithMap(
+					positionToMove.x,
+					positionToMove.y,
+					player.getSpriteWidth(),
+					player.getSpriteHeight()
+			);
+
+			if (playerMapColliding) {
 				player.setPosition(preMovePosition);
-				//player.render();
 				System.out.println("collision detected");
-
 			}
-
-			 */
 // -randy copied and pasted from my first assignment, basically logic for the buttons that pop up through the different states
 //		if (isTouched) {
 //			float touchX = Gdx.input.getX();
