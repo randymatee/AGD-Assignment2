@@ -851,25 +851,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-			for (Enemy enemy: activeLevel.getEnemies()) {
-				Sprite enemySprite = new Sprite(
-						enemy.getCurrentFrame(),
-						(int) enemy.getPosition().x,
-						(int) enemy.getPosition().y,
-						enemy.getSpriteWidth(),
-						enemy.getSpriteHeight()
-				);
-				enemySprite.setPosition(enemy.getPosition().x, enemy.getPosition().y);
-
-				if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
-					player.setDead(true);
-					deathSound.play(1.0f);
-					gameState = GameState.FAIL;
-					System.out.println("Player died!");
-				}
-
-			}
-
 
 
 			boolean playerMapColliding = activeLevel.getPlatform().doesRectCollideWithMap(
@@ -903,6 +884,32 @@ public class MyGdxGame extends ApplicationAdapter {
 //				if (mainMenuButton.contains(touchX, touchY)) gameState = GameState.MENU;
 //			}
 
+		}
+		Sprite playerSprite = new Sprite(
+				player.getCurrentFrame(),
+				(int) player.getPosition().x,
+				(int) player.getPosition().y,
+				player.getSpriteWidth(),
+				player.getSpriteHeight()
+		);
+		playerSprite.setPosition(player.getPosition().x, player.getPosition().y);
+
+		for (Enemy enemy : activeLevel.getEnemies()) {
+			Sprite enemySprite = new Sprite(
+					enemy.getCurrentFrame(),
+					(int) enemy.getPosition().x,
+					(int) enemy.getPosition().y,
+					enemy.getSpriteWidth(),
+					enemy.getSpriteHeight()
+			);
+			enemySprite.setPosition(enemy.getPosition().x, enemy.getPosition().y);
+
+			if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
+				player.setDead(true);
+				deathSound.play(1.0f);
+				gameState = GameState.FAIL;
+				System.out.println("Player died!");
+			}
 		}
 	}
 
