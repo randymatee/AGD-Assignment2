@@ -34,7 +34,11 @@ public class Enemy extends Entity implements ApplicationListener {
     private Platform platform;
     private List<Trash> activeTrash;
 
-    private boolean flipped = false;
+    private void flipEnemy() {
+        for (TextureRegion frame : getAnimationFrames()) {
+            frame.flip(false, true);
+        }
+    }
 
     @Override
     public void create() {
@@ -129,6 +133,9 @@ public class Enemy extends Entity implements ApplicationListener {
 
 
         if (hitWall || hitTrash) {
+
+            flipEnemy();
+
             if (moveDirection == PushDirection.UP) {
                 moveDirection = PushDirection.DOWN;
             } else {
