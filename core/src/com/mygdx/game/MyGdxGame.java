@@ -12,18 +12,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mygdx.game.world.Level;
 import com.mygdx.game.world.Platform;
 import com.mygdx.game.world.Constants;
-import java.awt.Button;
-import java.security.UnresolvedPermission;
+import com.sun.java.accessibility.util.TopLevelWindowListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -60,11 +57,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		return camera;
 	}
 
-	private Platform platform;
+	private Platform level1Platform;
+
+	private Platform level2Platform;
 
 	private List<Level> levels;
 
 	private Level level1;
+	private Level level2;
 
 	private Level activeLevel;
 	private DPadButton restartButton;
@@ -80,6 +80,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	Rectangle tryAgainButton;
 	Rectangle mainMenuButton;
 
+	Rectangle nextLevelButton;
+
 	//copied from my assignment 1
 	private void setupButtons() {
 		float w = Gdx.graphics.getWidth();
@@ -93,6 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		exitButton     = new Rectangle(cx, h * 0.42f, bw, bh);
 		tryAgainButton = new Rectangle(cx, h * 0.48f, bw, bh);
 		mainMenuButton = new Rectangle(cx, h * 0.35f, bw, bh);
+		nextLevelButton = new Rectangle(cx, h * 0.2f, bw, bh);
 	}
 
 
@@ -256,16 +259,165 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
+		List<PushDirection> level1EnemyDirs = new ArrayList<>();
+
+
 		Vector2 level1EnemyPos1 = new Vector2(250 - trashWidth, row1Height + 15);
+		level1EnemyDirs.add(PushDirection.DOWN);
+
+
+
 		Vector2 level1EnemyPos2 = new Vector2(500 + trashWidth, row1Height + 15);
+		level1EnemyDirs.add(PushDirection.DOWN);
+
+
 		Vector2 level1EnemyPos3 = new Vector2(650 + trashWidth * 2, row3Height + 15);
+		level1EnemyDirs.add(PushDirection.DOWN);
+
+
 		Vector2 level1EnemyPos4 = new Vector2(1400 + trashWidth * 5, row5Height - 2);
+		level1EnemyDirs.add(PushDirection.DOWN);
+
+
 
 
 		level1EnemyPos.add(level1EnemyPos1);
 		level1EnemyPos.add(level1EnemyPos2);
 		level1EnemyPos.add(level1EnemyPos3);
 		level1EnemyPos.add(level1EnemyPos4);
+
+
+
+		// LEVEL 2
+
+		List<Vector2> level2Row0 = new ArrayList<Vector2>();
+		level2Row0.add(new Vector2(650 + trashWidth * 7, row0Height));
+
+
+
+
+		List<Vector2> level2Row1 = new ArrayList<Vector2>();
+		level2Row1.add(new Vector2(650 + trashWidth * 4, row1Height));
+		level2Row1.add(new Vector2(650 + trashWidth * 2, row1Height));
+		level2Row1.add(new Vector2(650 + trashWidth * 11, row1Height));
+		level2Row1.add(new Vector2(650 + trashWidth * 7, row1Height));
+
+
+
+
+		//level2Row1.add(new Vector2(250, row1Height));
+		//level2Row1.add(new Vector2(250 + trashWidth, row1Height));
+		//level2Row1.add(new Vector2(650, row1Height));
+		//level2Row1.add(new Vector2(1000, row1Height));
+		//level2Row1.add(new Vector2(1000 + trashHeight * 3, row1Height));
+
+		//level2Row1.add(new Vector2(1400, row1Height));
+		//level2Row1.add(new Vector2(1400 + trashWidth * 6, row1Height));
+		//level2Row1.add(new Vector2(1400 + trashWidth * 7, row1Height));
+
+
+		List<Vector2> level2Row2 = new ArrayList<Vector2>();
+		//TODO: Testing, remove
+		level2Row2.add(new Vector2(50, row2Height));
+
+		level2Row2.add(new Vector2(650, row2Height));
+		level2Row2.add(new Vector2(650 + trashWidth * 3, row2Height));
+		level2Row2.add(new Vector2(650 + trashWidth * 11, row2Height));
+
+
+
+
+
+
+		List<Vector2> level2Row3 = new ArrayList<Vector2>();
+
+		level2Row3.add(new Vector2(650, row3Height));
+		level2Row3.add(new Vector2(650 + trashWidth, row3Height));
+		level2Row3.add(new Vector2(650 + trashWidth * 2, row3Height));
+		level2Row3.add(new Vector2(650 + trashWidth * 3, row3Height));
+		level2Row3.add(new Vector2(650 + trashWidth * 11, row3Height));
+
+
+
+
+
+
+		List<Vector2> level2Row4 = new ArrayList<Vector2>();
+		level2Row4.add(new Vector2(650 + trashWidth * 11, row4Height));
+
+
+		List<Vector2> level2Row5 = new ArrayList<Vector2>();
+		level2Row5.add(new Vector2(650, row5Height));
+
+		level2Row5.add(new Vector2(650 + trashWidth * 2, row5Height));
+		level2Row5.add(new Vector2(650 + trashWidth * 7, row5Height));
+
+		level2Row5.add(new Vector2(650 + trashWidth * 11, row5Height));
+
+
+		//TODO: REMOVE, TESTING
+		level2Row5.add(new Vector2(650 + trashWidth * 3, row5Height - trashHeight - padding));
+
+
+
+
+
+
+
+
+
+
+
+
+
+		List<List<Vector2>> level2TrashPos = new ArrayList<List<Vector2>>();
+
+		level2TrashPos.add(level2Row0);
+		level2TrashPos.add(level2Row1);
+		level2TrashPos.add(level2Row2);
+		level2TrashPos.add(level2Row3);
+		level2TrashPos.add(level2Row4);
+		level2TrashPos.add(level2Row5);
+
+
+
+
+		List<Vector2> level2EnemyPos = new ArrayList<>();
+		List<PushDirection> level2EnemyDir = new ArrayList<>();
+
+		Vector2 level2EnemyPos1 = new Vector2(150, row3Height);
+		level2EnemyDir.add(PushDirection.DOWN);
+
+		Vector2 level2EnemyPos2 = new Vector2(150 + trashWidth, row3Height) ;
+		level2EnemyDir.add(PushDirection.UP);
+
+		Vector2 level2EnemyPos3 = new Vector2(150 + trashWidth * 2, row3Height);
+		level2EnemyDir.add(PushDirection.DOWN);
+
+		Vector2 level2EnemyPos4 = new Vector2(150 + trashWidth * 3, row3Height) ;
+		level2EnemyDir.add(PushDirection.UP);
+
+		Vector2 level2EnemyPos5 = new Vector2(150 + trashWidth * 4, row3Height) ;
+		level2EnemyDir.add(PushDirection.DOWN);
+
+		Vector2 level2EnemyPos6 = new Vector2(650 + trashWidth * 10, row0Height) ;
+		level2EnemyDir.add(PushDirection.DOWN);
+
+		Vector2 level2EnemyPos7 = new Vector2(650 + trashWidth * 9, row0Height) ;
+		level2EnemyDir.add(PushDirection.DOWN);
+
+		Vector2 level2EnemyPos8 = new Vector2(650 + trashWidth * 8, row0Height) ;
+		level2EnemyDir.add(PushDirection.DOWN);
+
+
+		level2EnemyPos.add(level2EnemyPos1);
+		level2EnemyPos.add(level2EnemyPos2);
+		level2EnemyPos.add(level2EnemyPos3);
+		level2EnemyPos.add(level2EnemyPos4);
+		level2EnemyPos.add(level2EnemyPos5);
+		level2EnemyPos.add(level2EnemyPos6);
+		level2EnemyPos.add(level2EnemyPos7);
+		level2EnemyPos.add(level2EnemyPos8);
 
 
 		float buttonSize = Gdx.graphics.getHeight() * 0.1f;
@@ -300,7 +452,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		player.setCamera(camera);
 
-		platform = new Platform();
+		level1Platform = new Platform("Level1.tmx");
+		level2Platform = new Platform("Level2.tmx");
+
 
 		newGame();
 
@@ -308,10 +462,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		levels = new ArrayList<>();
 
-		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, platform, this);
-		level1.create();
+		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, level1Platform, this, level1EnemyDirs);
+		level2 = new Level(level2TrashPos, level2EnemyPos, player.getStartingPositon(), player, level2Platform, this, level2EnemyDir);
+
+		level2.create();
+
 		levels.add(level1);
-		activeLevel = level1;
+		levels.add(level2);
+		activeLevel = level2;
 		activeTrash = activeLevel.getTrash();
 	}
 
@@ -326,7 +484,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera.position.x = player.getPosition().x + player.getSpriteWidth() / 2f;
 		camera.position.y = Constants.WORLD_HEIGHT / 2f;
 		camera.update();
-		platform.render(camera, batch);
+
+		activeLevel.getPlatform().render(camera, batch);
 		activeLevel.render();
 		player.render();
 		restartButton.render();
@@ -394,6 +553,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			font.draw(uiBatch, "PLAY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.22f, tryAgainButton.y + tryAgainButton.height * 0.7f);
 			uiBatch.draw(buttonTexture, mainMenuButton.x, mainMenuButton.y, mainMenuButton.width, mainMenuButton.height);
 			font.draw(uiBatch, "MAIN MENU", mainMenuButton.x + mainMenuButton.width * 0.22f, mainMenuButton.y + mainMenuButton.height * 0.7f);
+
+			if (activeLevel == level1) {
+				uiBatch.draw(buttonTexture, nextLevelButton.x, nextLevelButton.y, nextLevelButton.width, nextLevelButton.height);
+				font.draw(uiBatch, "NEXT LEVEL", nextLevelButton.x + nextLevelButton.width * 0.22f, nextLevelButton.y + nextLevelButton.height * 0.7f);
+			}
 		}
 		uiBatch.end();
 	}
@@ -402,15 +566,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void dispose() {
 		batch.dispose();
 		img.dispose();
-		platform.dispose();
+		level1Platform.dispose();
 	}
 
 	public void update() {
 
-		if (gameState == GameState.SUCCESS) {
-			Gdx.app.exit();
-
-		}
 
 		if (player.getPosition().x > activeLevel.getEndPosition()) {
 			gameState = GameState.SUCCESS;
@@ -423,10 +583,44 @@ public class MyGdxGame extends ApplicationAdapter {
 		DPadButton touchedButton = null;
 		int gameHeight = Gdx.graphics.getHeight();
 
+		if (isTouched) {
+			if ((touchX >= restartButton.getPosX() && touchX <= restartButton.getPosX() + restartButton.getWidth()) &&
+					(gameHeight - touchY >= restartButton.getPosY() && gameHeight - touchY <= restartButton.getPosY() + restartButton.getHeight())) {
+
+				RestartGame();
+				return;
+
+
+			}
+
+		}
+
+
+		float touchScreenX = Gdx.input.getX();
+		float touchScreenY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+		if (gameState == GameState.SUCCESS && activeLevel == level1 && Gdx.input.justTouched()) {
+			if (nextLevelButton.contains(touchScreenX, touchScreenY)) {
+				switchLevel(level2);
+				gameState = GameState.PLAYING;
+
+			} else if (tryAgainButton.contains(touchScreenX, touchScreenY)) {
+				RestartGame();
+				gameState = GameState.PLAYING;
+
+
+			} else if (mainMenuButton.contains(touchScreenX, touchScreenY)) {
+				gameState = GameState.MENU;
+
+				//TODO: Add in main menu call
+			}
+
+
+		}
+
 		if (gameState == GameState.FAIL) {
 			if (Gdx.input.justTouched()) {
-				float touchScreenX = Gdx.input.getX();
-				float touchScreenY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
 
 				if (tryAgainButton.contains(touchScreenX, touchScreenY)) {
 					RestartGame();
@@ -558,7 +752,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 
-			boolean colliding = platform.doesRectCollideWithMap(positionToMove.x, positionToMove.y,
+			boolean colliding = level1Platform.doesRectCollideWithMap(positionToMove.x, positionToMove.y,
 							16,16);
 
 
@@ -639,7 +833,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 			temp.setActiveTrash(activeTrash);
-			platform.setActiveTrash(activeTrash);
+			level1Platform.setActiveTrash(activeTrash);
 			temp.setPlayer(this.player);
 			temp.setGame(this);
 
@@ -678,14 +872,32 @@ public class MyGdxGame extends ApplicationAdapter {
 		activeLevel.dispose();
 
 		player.setDead(false);
-		player.setCanPush(true);
 		player.setPosition(new Vector2(player.getStartingPositon()));
 
 		activeLevel.create();
 
 		activeTrash = activeLevel.getTrash();
+		player.setCanPush(true);
 
 		gameState = GameState.PLAYING;
+	}
+
+	public void switchLevel(Level level) {
+
+		activeLevel.dispose();
+
+		player.setDead(false);
+		player.setCanPush(true);
+		player.setPosition(new Vector2(player.getStartingPositon()));
+
+
+		activeLevel = level;
+		activeTrash = level.getTrash();
+
+		level.create();
+
+
+
 	}
 
 }

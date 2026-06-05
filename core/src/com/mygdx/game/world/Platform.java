@@ -14,8 +14,8 @@ public class Platform extends GameMap {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
-    public Platform() {
-        map = new TmxMapLoader().load("Level1.tmx");
+    public Platform(String mapName) {
+        map = new TmxMapLoader().load(mapName);
         renderer = new OrthogonalTiledMapRenderer(map);
     }
 

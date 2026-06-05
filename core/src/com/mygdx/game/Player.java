@@ -43,7 +43,7 @@ public class Player extends Entity implements ApplicationListener {
         setTextureRows(1);
         setTextureCols(1);
         setAnimationFrames(new TextureRegion[1 * 1]);
-        setStartingPositon(new Vector2(1900, 100));
+        setStartingPositon(new Vector2(450, 100));
 
 
         parseSprite(getTextureSheet(), getAnimationFrames(), 1, 1);

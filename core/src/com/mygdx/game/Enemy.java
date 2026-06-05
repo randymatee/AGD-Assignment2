@@ -69,6 +69,10 @@ public class Enemy extends Entity implements ApplicationListener {
             nextPosition.y += speedDelta;
         } else if (moveDirection == PushDirection.DOWN) {
             nextPosition.y -= speedDelta;
+        } else if (moveDirection == PushDirection.RIGHT) {
+            nextPosition.x += speedDelta;
+        } else if (moveDirection == PushDirection.LEFT) {
+            nextPosition.x -= speedDelta;
         }
 
         boolean hitWall = false;
@@ -127,7 +131,11 @@ public class Enemy extends Entity implements ApplicationListener {
     }
 
 
+    public PushDirection getMoveDirection() {
+        return moveDirection;
+    }
 
-
-
+    public void setMoveDirection(PushDirection moveDirection) {
+        this.moveDirection = moveDirection;
+    }
 }

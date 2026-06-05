@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Enemy;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
+import com.mygdx.game.PushDirection;
 import com.mygdx.game.Trash;
 
 import java.util.ArrayList;
@@ -29,12 +30,14 @@ public class Level implements ApplicationListener {
 
     private final MyGdxGame game;
 
+    private List<PushDirection> enemyStartDirs;
+
 
 
     private final int endPosition;
 
     public Level(List<List<Vector2>> trashPositionsbyRow, List<Vector2> enemyPositions, Vector2 playerStartingPosition, Player player,
-                 Platform platform, MyGdxGame game) {
+                 Platform platform, MyGdxGame game, List<PushDirection> enemyStartDirs) {
 
         this.trashPositionsbyRow = trashPositionsbyRow;
         this.enemyPositions = enemyPositions;
@@ -43,6 +46,7 @@ public class Level implements ApplicationListener {
         this.player = player;
         this.game = game;
         this.endPosition = 1925;
+        this.enemyStartDirs = enemyStartDirs;
 
 
         trash = new ArrayList<Trash>();
@@ -74,14 +78,15 @@ public class Level implements ApplicationListener {
 
         }
 
-        for (Vector2 position : enemyPositions) {
+        for (int i = 0; i < enemyPositions.size(); i++) {
 
             Enemy temp = new Enemy();
             temp.create();
             temp.setCamera(game.getCamera());
-            temp.setPosition(position);
+            temp.setPosition(enemyPositions.get(i));
             temp.setPlatform(platform);
             temp.setActiveTrash(trash);
+            temp.setMoveDirection(enemyStartDirs.get(i));
             enemies.add(temp);
         }
 
@@ -159,6 +164,7 @@ public class Level implements ApplicationListener {
             enemy.dispose();
         }
         enemies.clear();
+        //platform.dispose();
 
     }
 
@@ -193,5 +199,11 @@ public class Level implements ApplicationListener {
 
     public int getEndPosition() {
         return endPosition;
+    }
+
+
+
+    public Platform getPlatform() {
+        return platform;
     }
 }
