@@ -228,7 +228,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		level1Row3.add(new Vector2(1400, row3Height));
 		level1Row3.add(new Vector2(1400 + trashWidth * 2, row3Height));
-		level1Row3.add(new Vector2(1400 + trashWidth * 6, row3Height));
+		//level1Row3.add(new Vector2(1400 + trashWidth * 6, row3Height));
 		level1Row3.add(new Vector2(1400 + trashWidth * 7, row3Height));
 
 
@@ -294,19 +294,27 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
 		List<PushDirection> level1EnemyDirs = new ArrayList<>();
+		List<Float> level1EnemySpeeds = new ArrayList<>();
+		float defaultEnemySpeed = 100;
+
 
 
 		Vector2 level1EnemyPos1 = new Vector2(250 - trashWidth, row1Height + 15);
 		level1EnemyDirs.add(PushDirection.DOWN);
+		level1EnemySpeeds.add(defaultEnemySpeed);
 
 
 
 		Vector2 level1EnemyPos2 = new Vector2(500 + trashWidth, row1Height + 15);
 		level1EnemyDirs.add(PushDirection.DOWN);
+		level1EnemySpeeds.add(defaultEnemySpeed);
+
 
 
 		Vector2 level1EnemyPos3 = new Vector2(650 + trashWidth * 2, row3Height + 15);
 		level1EnemyDirs.add(PushDirection.DOWN);
+		level1EnemySpeeds.add(defaultEnemySpeed);
+
 
 
 		Vector2 level1EnemyPos4 = new Vector2(1400 + trashWidth * 5, row5Height - 2);
@@ -319,6 +327,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1EnemyPos.add(level1EnemyPos2);
 		level1EnemyPos.add(level1EnemyPos3);
 		level1EnemyPos.add(level1EnemyPos4);
+
+
 
 
 
@@ -418,30 +428,48 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		List<Vector2> level2EnemyPos = new ArrayList<>();
 		List<PushDirection> level2EnemyDir = new ArrayList<>();
+		List<Float> level2EnemySpeeds = new ArrayList<>();
+
 
 		Vector2 level2EnemyPos1 = new Vector2(150, row3Height);
 		level2EnemyDir.add(PushDirection.DOWN);
+		level2EnemySpeeds.add(defaultEnemySpeed - 5);
+
 
 		Vector2 level2EnemyPos2 = new Vector2(150 + trashWidth, row3Height) ;
 		level2EnemyDir.add(PushDirection.UP);
+		level2EnemySpeeds.add(defaultEnemySpeed - 5);
+
 
 		Vector2 level2EnemyPos3 = new Vector2(150 + trashWidth * 2, row3Height);
 		level2EnemyDir.add(PushDirection.DOWN);
+		level2EnemySpeeds.add(defaultEnemySpeed - 5);
+
 
 		Vector2 level2EnemyPos4 = new Vector2(150 + trashWidth * 3, row3Height) ;
 		level2EnemyDir.add(PushDirection.UP);
+		level2EnemySpeeds.add(defaultEnemySpeed - 5);
+
 
 		Vector2 level2EnemyPos5 = new Vector2(150 + trashWidth * 4, row3Height) ;
 		level2EnemyDir.add(PushDirection.DOWN);
+		level2EnemySpeeds.add(defaultEnemySpeed - 5);
+
 
 		Vector2 level2EnemyPos6 = new Vector2(650 + trashWidth * 10, row0Height) ;
 		level2EnemyDir.add(PushDirection.DOWN);
+		level2EnemySpeeds.add(defaultEnemySpeed + 80);
+
 
 		Vector2 level2EnemyPos7 = new Vector2(650 + trashWidth * 9, row0Height) ;
 		level2EnemyDir.add(PushDirection.DOWN);
+		level2EnemySpeeds.add(defaultEnemySpeed + 80);
+
 
 		Vector2 level2EnemyPos8 = new Vector2(650 + trashWidth * 8, row0Height) ;
 		level2EnemyDir.add(PushDirection.DOWN);
+		level2EnemySpeeds.add(defaultEnemySpeed + 80);
+
 
 
 		level2EnemyPos.add(level2EnemyPos1);
@@ -496,14 +524,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		levels = new ArrayList<>();
 
-		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, level1Platform, this, level1EnemyDirs);
-		level2 = new Level(level2TrashPos, level2EnemyPos, player.getStartingPositon(), player, level2Platform, this, level2EnemyDir);
+		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, level1Platform, this, level1EnemyDirs, level1EnemySpeeds);
+		level2 = new Level(level2TrashPos, level2EnemyPos, player.getStartingPositon(), player, level2Platform, this, level2EnemyDir, level2EnemySpeeds);
 
-		level1.create();
+		level2.create();
 
 		levels.add(level1);
 		levels.add(level2);
-		activeLevel = level1;
+		activeLevel = level2;
 		activeTrash = activeLevel.getTrash();
 	}
 

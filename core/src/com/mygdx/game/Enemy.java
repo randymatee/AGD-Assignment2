@@ -20,6 +20,14 @@ import java.util.List;
 public class Enemy extends Entity implements ApplicationListener {
     private float speed;
 
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
     private Player player;
 
     private PushDirection moveDirection = PushDirection.UP;
