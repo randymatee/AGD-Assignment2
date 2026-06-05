@@ -162,6 +162,7 @@ public class Trash extends Entity implements ApplicationListener {
                 collidedTrash = trash;
 
                 if (isPushing) {
+                    Game.getPushSound().play(1.0f);
                     isPushing = false;
                     player.setCanPush(true);
                 }

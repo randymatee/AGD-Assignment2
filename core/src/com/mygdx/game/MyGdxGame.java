@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -82,6 +83,26 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	Rectangle nextLevelButton;
 
+	private Sound pushSound;
+
+	public Sound getPushSound() {
+		return pushSound;
+	}
+
+	private Sound deathSound;
+	private Sound menuEnter;
+	private Sound menuExit;
+	private Sound pause;
+	private Sound levelTrans;
+
+	private Sound levelComplete;
+
+	private Sound levelStart;
+
+	private Sound levelRestart;
+
+	private boolean canPlayLevelSound = true;
+
 	//copied from my assignment 1
 	private void setupButtons() {
 		float w = Gdx.graphics.getWidth();
@@ -115,6 +136,19 @@ public class MyGdxGame extends ApplicationAdapter {
 		upButtonTexture = new Texture(Gdx.files.internal("Up_Key.png"));
 		downButtonTexture = new Texture(Gdx.files.internal("Down_Key.png"));
 		restartButtonTexture = new Texture(Gdx.files.internal("restart_key.png"));
+
+		pushSound = Gdx.audio.newSound(Gdx.files.internal("SFX/Bump.wav"));
+		deathSound = Gdx.audio.newSound(Gdx.files.internal("SFX/Cancel.wav"));
+		menuEnter = Gdx.audio.newSound(Gdx.files.internal("SFX/Menu_In.wav"));
+		menuExit = Gdx.audio.newSound(Gdx.files.internal("SFX/Menu_Out.wav"));
+		pause = Gdx.audio.newSound(Gdx.files.internal("SFX/Pause.wav"));
+		levelTrans = Gdx.audio.newSound(Gdx.files.internal("SFX/Steps.wav"));
+		levelComplete = Gdx.audio.newSound(Gdx.files.internal("SFX/Confirm.wav"));
+		levelRestart = Gdx.audio.newSound(Gdx.files.internal("SFX/Trampoline.wav"));
+		levelStart = Gdx.audio.newSound(Gdx.files.internal("SFX/Powerup.wav"));
+
+
+
 
 
 		int trashHeight = 44;
@@ -465,11 +499,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, level1Platform, this, level1EnemyDirs);
 		level2 = new Level(level2TrashPos, level2EnemyPos, player.getStartingPositon(), player, level2Platform, this, level2EnemyDir);
 
-		level2.create();
+		level1.create();
 
 		levels.add(level1);
 		levels.add(level2);
-		activeLevel = level2;
+		activeLevel = level1;
 		activeTrash = activeLevel.getTrash();
 	}
 
@@ -571,8 +605,15 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public void update() {
 
+		if (gameState == GameState.SUCCESS && canPlayLevelSound) {
+			levelComplete.play(1.0f);
+			canPlayLevelSound = false;
+
+		}
+
 
 		if (player.getPosition().x > activeLevel.getEndPosition()) {
+
 			gameState = GameState.SUCCESS;
 		}
 
@@ -611,6 +652,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			} else if (mainMenuButton.contains(touchScreenX, touchScreenY)) {
 				gameState = GameState.MENU;
+				menuExit.play(1.0f);
 
 				//TODO: Add in main menu call
 			}
@@ -737,6 +779,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 					if (trash.isOverlapping() == true) {
+						pushSound.play(1.0f);
 						trash.setPushPosition(trash.push(pushDirection, speedDelta, player.isCanPush()));
 						player.setCanPush(false);
 						trash.setOverlapping(false);
@@ -769,6 +812,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 				if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
 					player.setDead(true);
+					deathSound.play(1.0f);
 					gameState = GameState.FAIL;
 					System.out.println("Player died!");
 				}
@@ -869,6 +913,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	public void RestartGame() {
+		canPlayLevelSound = true;
+		levelRestart.play(1.0f);
 		activeLevel.dispose();
 
 		player.setDead(false);
@@ -883,6 +929,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void switchLevel(Level level) {
+		canPlayLevelSound = true;
+		levelTrans.play(1.0f);
 
 		activeLevel.dispose();
 
