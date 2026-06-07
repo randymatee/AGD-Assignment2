@@ -17,6 +17,9 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.mygdx.game.world.Platform;
 import java.util.List;
 
+/**
+ * <p> This is a class for the enemy and its AI
+ */
 public class Enemy extends Entity implements ApplicationListener {
     private float speed;
 
@@ -36,13 +39,20 @@ public class Enemy extends Entity implements ApplicationListener {
 
     private Vector2 hitboxDimensions;
 
-
+    /**
+     * <p> This method is used to flip the enemy </p>
+     */
     private void flipEnemy() {
         for (TextureRegion frame : getAnimationFrames()) {
             frame.flip(false, true);
         }
     }
 
+    /**
+     * <p>
+     *     Create enemy object
+     * </p>
+     */
     @Override
     public void create() {
         super.create();
@@ -72,14 +82,31 @@ public class Enemy extends Entity implements ApplicationListener {
 
     }
 
+    /**
+     * <p>
+     *     Sets the platform mainly for enemy wall collision checks
+     * </p>
+     * @param platform the being used
+     */
     public void setPlatform(Platform platform) {
         this.platform = platform;
     }
 
+    /**
+     * <p>
+     *     Sets the list of active trash object for the enemy t collide into
+     * </p>
+     * @param activeTrash
+     */
     public void setActiveTrash(List<Trash> activeTrash) {
         this.activeTrash = activeTrash;
     }
 
+    /**
+     * <p>
+     *     Updates enemy movement, checks for collision
+     * </p>
+     */
     public void update() {
         float speedDelta = speed * Gdx.graphics.getDeltaTime();
 
@@ -154,7 +181,6 @@ public class Enemy extends Entity implements ApplicationListener {
         setPosition(nextPosition);
     }
 
-
     public PushDirection getMoveDirection() {
         return moveDirection;
     }
@@ -162,6 +188,8 @@ public class Enemy extends Entity implements ApplicationListener {
     public void setMoveDirection(PushDirection moveDirection) {
         this.moveDirection = moveDirection;
     }
+
+
 
     public Vector2 getHitboxDimensions() {
         return hitboxDimensions;

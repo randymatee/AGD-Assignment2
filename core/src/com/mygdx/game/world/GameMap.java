@@ -4,10 +4,20 @@ import com.mygdx.game.Trash;
 
 import java.util.List;
 
+/**
+ * <p>
+ *     class for all gamemaps and functionality for making tilemaps
+ * </p>
+ */
 public abstract class GameMap {
 
     private List<Trash> activeTrash;
 
+    /**
+     * <p>
+     *     Creates a new GameMap object
+     * </p>
+     */
     public GameMap() {
     }
 
@@ -19,6 +29,15 @@ public abstract class GameMap {
         );
     }
 
+    /**
+     * <p>
+     *     retrives the tilemap type by coordinate
+     * </p>
+     * @param layer the map layer
+     * @param col x position coordinate for pixels
+     * @param row y position coordinate for pixels
+     * @return for the tile type depending on the location
+     */
     public abstract TileType getTileTypeByCoordinate(int layer, int col, int row);
 
     public boolean doesRectCollideWithMap(float x, float y, int width, int height) {
@@ -61,6 +80,12 @@ public abstract class GameMap {
     public void dispose() {
     }
 
+    /**
+     * <p>
+     *     Gets the list of active trash objects in the map
+     * </p>
+     * @return the active trash objects
+     */
     public List<Trash> getActiveTrash() {
         return activeTrash;
     }
