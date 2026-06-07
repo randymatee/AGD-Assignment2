@@ -9,6 +9,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+/**
+ * <p>
+ *     represents the
+ * </p>
+ */
 public class Platform extends GameMap {
 
     private TiledMap map;
@@ -19,12 +24,28 @@ public class Platform extends GameMap {
         renderer = new OrthogonalTiledMapRenderer(map);
     }
 
+    /**
+     * <p>
+     *     renders the tile map with the orthographic camera
+     * </p>
+     * @param camera camera being used to show the map
+     * @param batch used for rendering sprites
+     */
     @Override
     public void render(OrthographicCamera camera, SpriteBatch batch) {
         renderer.setView(camera);
         renderer.render();
     }
 
+    /**
+     * <p>
+     *     getting the tile types from the tile map by going through each coordinate
+     * </p>
+     * @param layer the map layer
+     * @param col x position coordinate for pixels
+     * @param row y position coordinate for pixels
+     * @return
+     */
     @Override
     public TileType getTileTypeByCoordinate(int layer, int col, int row) {
 
