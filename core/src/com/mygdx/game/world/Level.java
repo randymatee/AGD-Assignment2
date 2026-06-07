@@ -12,6 +12,11 @@ import com.mygdx.game.Trash;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Level contains all information pertaining to a gameplay level. It deals with instantiating and
+ * setting the values of all trash and enemies.
+ *
+ */
 public class Level implements ApplicationListener {
 
     private List<Trash> trash;
@@ -60,6 +65,8 @@ public class Level implements ApplicationListener {
     public void create() {
 
 
+
+        // Instantiate all trash based on positions
         for (List<Vector2> list : trashPositionsbyRow) {
             for (Vector2 position : list) {
 
@@ -78,7 +85,7 @@ public class Level implements ApplicationListener {
 
 
         }
-
+        // Instantiate all enemies and set position, speed and direction.
         for (int i = 0; i < enemyPositions.size(); i++) {
 
             Enemy temp = new Enemy();
@@ -91,36 +98,6 @@ public class Level implements ApplicationListener {
             temp.setSpeed(enemySpeeds.get(i));
             enemies.add(temp);
         }
-
-
-        /*
-    }
-        int trashCount = 5;
-
-        for (int i = 0; i < trashCount - 1; i++) {
-
-            Trash temp = new Trash();
-            temp.create();
-            activeTrash.add(temp);
-            if (i == 0) {
-                temp.setPosition(new Vector2(1000, 500));
-            }
-
-            if (i == 1) {
-                temp.setPosition(new Vector2(1000, 700));
-            }
-
-            if (i == 2) {
-                temp.setPosition(new Vector2(1000, 300));
-            }
-
-
-            temp.setActiveTrash(activeTrash);
-            platform.setActiveTrash(activeTrash);
-            temp.setPlayer(this.player);
-            temp.setGame(this);
-
-         */
 
 
     }

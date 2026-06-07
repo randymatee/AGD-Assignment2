@@ -18,6 +18,9 @@ import com.badlogic.gdx.math.collision.Ray;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p> Represents the trash objects.</p>
+ */
 public class Trash extends Entity implements ApplicationListener {
 
     private boolean isPushing = false;
@@ -48,19 +51,6 @@ public class Trash extends Entity implements ApplicationListener {
 
     private Vector2 hitboxDimensions;
 
-
-    /*
-    public Trash(SpriteBatch spriteBatch, Texture textureSheet,
-                 TextureRegion[] animationFrames, Animation animation,
-                 TextureRegion currentFrame, int frameIndex,
-                 float animationStateTime, int TEXTURE_COLS,
-                 int TEXTURE_ROWS, String baseSpritePath) {
-        super(spriteBatch, textureSheet, animationFrames,
-                animation, currentFrame, frameIndex, animationStateTime,
-                TEXTURE_COLS, TEXTURE_ROWS, baseSpritePath);
-    }
-
-     */
 
     @Override
     public void create() {
@@ -95,63 +85,13 @@ public class Trash extends Entity implements ApplicationListener {
 
     @Override
     public void render() {
-        //super.render();
-
         calculateRayCollisions();
-
-        /*
-        if (activeTrash != null && isPushing) {
-            Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int)this.getPosition().x, (int)this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
-            ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
-
-            List<Trash> trashToCheckCollide = new ArrayList<Trash>();
-            List<Sprite> collideSprites = new ArrayList<Sprite>();
-            Ray collisionRay = Game.createRay(this.getPosition().x + this.getSpriteWidth() / 2, this.getPosition().y + this.getSpriteHeight() / 2, directionOfMovement);
-
-            ShapeRenderer shapeRenderer = new ShapeRenderer();
-            shapeRenderer.setProjectionMatrix(Game.getCamera().combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.line(collisionRay.origin.x, collisionRay.origin.y, collisionRay.origin.x + 500, collisionRay.origin.y);
-            shapeRenderer.end();
-
-            for (Trash trash: activeTrash) {
-                Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
-                trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
-
-
-                BoundingBox spriteBox = new BoundingBox(new Vector3(trash.getPosition().x, trash.getPosition().y, -1),
-                                                        new Vector3(trash.getPosition().x + trash.getSpriteWidth(), trash.getPosition().y + trash.getSpriteHeight(),1 ));
-
-                if (Intersector.intersectRayBoundsFast(collisionRay, spriteBox)) {
-                    trashToCheckCollide.add(trash);
-                    collideSprites.add(trashSprite);
-                }
-
-         */
-
-
-        // TODO: Turn off isPushing when colliding with a tilemap.
-
-                /*
-                if (ownSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle()) && trash != this) {
-                    collidedTrash = trash;
-
-
-
-                    if(isPushing) {
-                        isPushing = false;
-                        player.setCanPush(true);
-                    }
-;
-
-                }
-                */
 
         Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int) this.getPosition().x, (int) this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
         ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
-        //ownSprite.setBounds(this.getPosition().x, this.getPosition().y, this.getHitboxDimensions().x, getHitboxDimensions().y);
 
+
+        // Check for collisions with other trash based on ones calculated from the ray.
         for (int i = 0; i < trashToCheckCollide.size(); i++) {
             Trash trash = trashToCheckCollide.get(i);
             Sprite trashSprite = collideSprites.get(i);
@@ -170,14 +110,11 @@ public class Trash extends Entity implements ApplicationListener {
 
 
         }
-
+        // Continually call push unless there is a collision.
         if (isPushing) {
             this.setPushPosition(this.push(currentPushDirection, currentPushSpeed, true));
         }
-        // Apply the new position calculated by push after collision has been checked.
-//        if (hasPushBeenCalled && this.pushPosition != null) {
-//            this.setPosition(pushPosition);
-//        }
+
         if (hasPushBeenCalled && this.pushPosition != null) {
 
             boolean hitWall = Game.getActiveLevel().getPlatform().doesRectCollideWithMap(
@@ -202,10 +139,13 @@ public class Trash extends Entity implements ApplicationListener {
     }
 
 
-
-
-
-
+    /**
+     * <p> Initiates a push, moving the trash in a specified direction. </p>
+     * @param direction The direction the trash should be moved
+     * @param deltaSpeed The speed the trash should be moved
+     * @param canBePushed Whether the trash is in a pushable state.
+     * @return The new position dictated by the push.
+     */
     public Vector2 push(PushDirection direction, float deltaSpeed, boolean canBePushed) {
         if (!canBePushed) {
             return null;
@@ -234,18 +174,15 @@ public class Trash extends Entity implements ApplicationListener {
         return null;
     }
 
-
+    /**
+     * <p> Checks when the player is pushing a trash and determines whether the direction its being
+     *      pushed is the same direction that is has been previously pushed.</p>
+     * @param movDirection The direction the player pushed the trash.
+     * @return Whether or not the previous collision was detected.
+     */
     public boolean isDirectionContainingPrevCollision(PushDirection movDirection) {
 
         int distanceToCheck = 5;
-        //float spriteHeightDivised = this.getSpriteHeight() / 2;
-        //float collidedHeightDivised = collidedTrash.getSpriteHeight() / 2;
-
-        //float spriteWidthDivised = this.getSpriteWidth() / 2;
-        //float collidedWidthDivised = collidedTrash.getSpriteWidth() / 2;
-
-
-
 
         if (collidedTrash == null) {
             return false;
@@ -287,6 +224,11 @@ public class Trash extends Entity implements ApplicationListener {
 
     }
 
+    /**
+     * <p> Uses a created ray to check for collisions with other trash in the direction of
+     *      movement only. </p>
+     *
+     */
     public void calculateRayCollisions() {
         if (activeTrash != null && isPushing) {
 
@@ -295,25 +237,14 @@ public class Trash extends Entity implements ApplicationListener {
 
             Sprite ownSprite = new Sprite(this.getCurrentFrame(), (int) this.getPosition().x, (int) this.getPosition().y, this.getSpriteWidth(), this.getSpriteHeight());
             ownSprite.setPosition(this.getPosition().x, this.getPosition().y);
-            //ownSprite.setBounds(this.getPosition().x, this.getPosition().y, this.getHitboxDimensions().x, getHitboxDimensions().y);
-
 
             Ray collisionRay = Game.createRay(this.getPosition().x + this.getSpriteWidth() / 2, this.getPosition().y + this.getSpriteHeight() / 2, directionOfMovement);
-
-            //ShapeRenderer shapeRenderer = new ShapeRenderer();
-            //shapeRenderer.setProjectionMatrix(Game.getCamera().combined);
-            //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            //shapeRenderer.setColor(Color.GREEN);
-            //shapeRenderer.line(collisionRay.origin.x, collisionRay.origin.y, collisionRay.origin.x + 500, collisionRay.origin.y);
-            //shapeRenderer.end();
 
             for (Trash trash : activeTrash) {
                 Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int) trash.getPosition().x, (int) trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
                 trashSprite.setPosition(trash.getPosition().x, trash.getPosition().y);
-                //trashSprite.setBounds(trash.getPosition().x, trash.getPosition().y, trash.getHitboxDimensions().x, trash.getHitboxDimensions().y);
 
-
-
+                // Because rays work in 3d, a bounding box has to be created for depth.
                 BoundingBox spriteBox = new BoundingBox(new Vector3(trash.getPosition().x, trash.getPosition().y, -1),
                         new Vector3(trash.getPosition().x + trash.getSpriteWidth(), trash.getPosition().y + trash.getSpriteHeight(), 1));
 

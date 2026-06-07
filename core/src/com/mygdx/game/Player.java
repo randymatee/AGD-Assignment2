@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
+/**
+ * <p> Represents the player character. </p>
+ */
 public class Player extends Entity implements ApplicationListener {
 
     private float speed;
@@ -18,23 +20,6 @@ public class Player extends Entity implements ApplicationListener {
 
     private Vector2 hitboxDimensions;
 
-/*
-    public Player(SpriteBatch spriteBatch,
-                  Texture textureSheet,
-                  TextureRegion[] animationFrames,
-                  Animation animation,
-                  TextureRegion currentFrame,
-                  int frameIndex,
-                  float animationStateTime,
-                  int textureCols,
-                  int textureRows,
-                  String baseSpritePath) {
-
-        super(spriteBatch, textureSheet, animationFrames, animation,
-                currentFrame, frameIndex, animationStateTime,
-                textureCols, textureRows, baseSpritePath);
-    }
-    */
 
     @Override
     public void create() {
@@ -70,7 +55,6 @@ public class Player extends Entity implements ApplicationListener {
     public void move(MoveDir direction) {
 
     }
-
 
     public float getSpeed() {
         return speed;

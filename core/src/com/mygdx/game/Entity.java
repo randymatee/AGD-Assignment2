@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-
+/**
+ * <p> Abstract class that all entities in the game inherit from. Handles sprite setup and
+ *      common variables.</p>
+ */
 public abstract class Entity implements ApplicationListener {
 
     private SpriteBatch spriteBatch;
@@ -30,33 +33,6 @@ public abstract class Entity implements ApplicationListener {
 
 
     private Vector2 startingPositon;
-
-/*
-    public Entity(
-            SpriteBatch spriteBatch,
-            Texture textureSheet,
-            TextureRegion[] animationFrames,
-            Animation animation,
-            TextureRegion currentFrame,
-            int frameIndex,
-            float animationStateTime,
-            int textureCols,
-            int textureRows,
-            String baseSpritePath) {
-
-        this.spriteBatch = spriteBatch;
-        this.textureSheet = textureSheet;
-        this.animationFrames = animationFrames;
-        this.animation = animation;
-        this.currentFrame = currentFrame;
-        this.frameIndex = frameIndex;
-        this.animationStateTime = animationStateTime;
-        this.textureCols = getTextureCols();
-        this.textureRows = textureRows;
-
-
-    }
-    */
 
     @Override
     public void create() {

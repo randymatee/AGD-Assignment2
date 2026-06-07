@@ -4,6 +4,9 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Represents the dpad buttons used to control the player.
+ */
 public class DPadButton implements ApplicationListener {
 
     public float getPosX() {

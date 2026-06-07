@@ -162,14 +162,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		player.create();
 
 
-		//create enemy -randy
-		//enemy = new Enemy();
-		//enemy.create();
-
-
 		int row1Height = 225;
 		int row0Height = row1Height + trashHeight;
 		int rowMinus1Height = row0Height + trashHeight;
+
+		// LEVEL 1
+
+
+		// Set positions of all trash in level, split up into 7 different rows
 
 		List<Vector2> level1RowMinusOne = new ArrayList<Vector2>();
 		level1RowMinusOne.add(new Vector2(1000 + trashWidth * 4, rowMinus1Height));
@@ -264,11 +264,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row4.add(new Vector2(1400 + trashWidth * 9, row4Height));
 
 
-
-		//level1Row4.add(new Vector2(1000, row4Height));
-
-
-
 		int row5Height = row4Height - trashHeight;
 		List<Vector2> level1Row5 = new ArrayList<Vector2>();
 		level1Row5.add(new Vector2(250, row5Height));
@@ -278,21 +273,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row5.add(new Vector2(1000, row5Height));
 		level1Row5.add(new Vector2(1000 + trashWidth, row5Height));
 		level1Row5.add(new Vector2(1000 + trashWidth * 2, row5Height));
-		//level1Row5.add(new Vector2(1000 + trashWidth * 3, row5Height));
-		//level1Row5.add(new Vector2(1000 + trashWidth * 4, row5Height));
 		level1Row5.add(new Vector2(1000 + trashWidth * 5, row5Height));
 		level1Row5.add(new Vector2(1000 + trashWidth * 6, row5Height));
 
-
-
 		level1Row5.add(new Vector2(1400, row5Height));
 		level1Row5.add(new Vector2(1400 + trashWidth * 2, row5Height));
-		//level1Row5.add(new Vector2(1400 + trashWidth * 6, row5Height));
-
-
-		//TODO: Temporary because no tile collison
-		//level1Row5.add(new Vector2(1400 + trashWidth, row5Height - trashHeight));
-
 
 		List<List<Vector2>> level1TrashPos = new ArrayList<List<Vector2>>();
 
@@ -306,17 +291,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1TrashPos.add(level1Row5);
 
 
+		// Set up enemy positions, direction and speeds to be passed into the level constructor.
+
 		List<Vector2> level1EnemyPos = new ArrayList<Vector2>();
 		List<PushDirection> level1EnemyDirs = new ArrayList<>();
 		List<Float> level1EnemySpeeds = new ArrayList<>();
 		float defaultEnemySpeed = 100;
 
-
-
 		Vector2 level1EnemyPos1 = new Vector2(250 - trashWidth, row1Height + 15);
 		level1EnemyDirs.add(PushDirection.DOWN);
 		level1EnemySpeeds.add(defaultEnemySpeed);
-
 
 
 		Vector2 level1EnemyPos2 = new Vector2(500 + trashWidth, row1Height + 15);
@@ -324,11 +308,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1EnemySpeeds.add(defaultEnemySpeed);
 
 
-
 		Vector2 level1EnemyPos3 = new Vector2(650 + trashWidth * 2, row3Height + 15);
 		level1EnemyDirs.add(PushDirection.DOWN);
 		level1EnemySpeeds.add(defaultEnemySpeed);
-
 
 
 		Vector2 level1EnemyPos4 = new Vector2(1400 + trashWidth * 5, row5Height - 2);
@@ -336,15 +318,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1EnemySpeeds.add(defaultEnemySpeed + 200);
 
 
-
-
-
 		level1EnemyPos.add(level1EnemyPos1);
 		level1EnemyPos.add(level1EnemyPos2);
 		level1EnemyPos.add(level1EnemyPos3);
 		level1EnemyPos.add(level1EnemyPos4);
-
-
 
 
 
@@ -367,28 +344,11 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-
-		//level2Row1.add(new Vector2(250, row1Height));
-		//level2Row1.add(new Vector2(250 + trashWidth, row1Height));
-		//level2Row1.add(new Vector2(650, row1Height));
-		//level2Row1.add(new Vector2(1000, row1Height));
-		//level2Row1.add(new Vector2(1000 + trashHeight * 3, row1Height));
-
-		//level2Row1.add(new Vector2(1400, row1Height));
-		//level2Row1.add(new Vector2(1400 + trashWidth * 6, row1Height));
-		//level2Row1.add(new Vector2(1400 + trashWidth * 7, row1Height));
-
-
 		List<Vector2> level2Row2 = new ArrayList<Vector2>();
-		//level2Row2.add(new Vector2(50, row2Height));
 
 		level2Row2.add(new Vector2(650, row2Height));
 		level2Row2.add(new Vector2(650 + trashWidth * 3, row2Height));
 		level2Row2.add(new Vector2(650 + trashWidth * 11, row2Height));
-
-
-
-
 
 
 		List<Vector2> level2Row3 = new ArrayList<Vector2>();
@@ -398,11 +358,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		level2Row3.add(new Vector2(650 + trashWidth * 2, row3Height));
 		level2Row3.add(new Vector2(650 + trashWidth * 3, row3Height));
 		level2Row3.add(new Vector2(650 + trashWidth * 11, row3Height));
-
-
-
-
-
 
 		List<Vector2> level2Row4 = new ArrayList<Vector2>();
 		level2Row4.add(new Vector2(650 + trashWidth * 11, row4Height));
@@ -417,20 +372,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		level2Row5.add(new Vector2(650 + trashWidth * 11, row5Height));
 
 
-		//level2Row5.add(new Vector2(650 + trashWidth * 3, row5Height - trashHeight - padding));
-
-
-
-
-
-
-
-
-
-
-
-
-
 		List<List<Vector2>> level2TrashPos = new ArrayList<List<Vector2>>();
 
 		level2TrashPos.add(level2Row0);
@@ -439,8 +380,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		level2TrashPos.add(level2Row3);
 		level2TrashPos.add(level2Row4);
 		level2TrashPos.add(level2Row5);
-
-
 
 
 		List<Vector2> level2EnemyPos = new ArrayList<>();
@@ -488,7 +427,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		level2EnemySpeeds.add(defaultEnemySpeed + 80);
 
 
-
 		level2EnemyPos.add(level2EnemyPos1);
 		level2EnemyPos.add(level2EnemyPos2);
 		level2EnemyPos.add(level2EnemyPos3);
@@ -517,13 +455,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		activeTrash = new ArrayList<>();
 
-
-
-
-		//leftButton = new
-
-
-		//leftButton = new
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
@@ -570,43 +501,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		restartButton.render();
 
 
-
-
-
-
-
-
-		//enemy.render();
-
-
 		// Render D-Pad only when playing
 		if (gameState == GameState.PLAYING) {
 			for (DPadButton button : dPadButtons) {
 				button.render();
 			}
 		}
-		//if (activeTrash != null) {
 
-			//for (Trash trash: activeTrash) {
-				//trash.render();
-			//}
-
-
-
-		/*
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-
-		 */
-
-		/*
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-
-		 */
-
+		// Draw the menu corresponding to the state that the game is in.
 		uiBatch.begin();
 		if (gameState == GameState.MENU) {
 			font.setColor(Color.WHITE);
@@ -670,6 +572,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			return;
 		}
 
+		// canPlayLevelSound is set to false here to ensure it is only played once.
 		if (gameState == GameState.SUCCESS && canPlayLevelSound) {
 			levelComplete.play(1.0f);
 			canPlayLevelSound = false;
@@ -718,8 +621,6 @@ public class MyGdxGame extends ApplicationAdapter {
 			} else if (mainMenuButton.contains(touchScreenX, touchScreenY)) {
 				gameState = GameState.MENU;
 				menuExit.play(1.0f);
-
-				//TODO: Add in main menu call
 			}
 
 
@@ -737,7 +638,6 @@ public class MyGdxGame extends ApplicationAdapter {
 			return;
 		}
 
-
 		boolean keyPressed = false;
 		if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) ||
 				Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT) ||
@@ -747,6 +647,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		if (keyPressed || isTouched) {
 
+
+			// Determines which button has been pressed by the user.
 			if (isTouched) {
 				for (DPadButton button : dPadButtons) {
 
@@ -760,7 +662,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 
 
-			// Gets the currently active sprite.
+			// Gets the currently active sprite to perform collision checks.
 			Sprite playerSprite = new Sprite(player.getCurrentFrame(), (int)player.getPosition().x, (int)player.getPosition().y, player.getSpriteWidth(), player.getSpriteHeight());
 			playerSprite.setPosition(player.getPosition().x, player.getPosition().y);
 			Vector2 positionToMove = player.getPosition();
@@ -808,12 +710,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
             }
 			player.setPosition(positionToMove);
-			// Ensure player has been moved for collision check
-			//player.render();
-
-
-
-
 
 			for (Trash trash: activeTrash) {
 				Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int)trash.getPosition().x, (int)trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
@@ -824,7 +720,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 				if (playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) {
 
-					//System.out.println(playerSprite.getBoundingRectangle().toString());
 					System.out.println(trashSprite.getBoundingRectangle().toString());
 
 					trash.setDirectionOfMovement(pushDirection);
@@ -832,9 +727,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 					if (trash.isDirectionContainingPrevCollision(pushDirection)) {
 						player.setPosition(preMovePosition);
-						//player.render();
-
-
 
 					}
 
@@ -842,7 +734,7 @@ public class MyGdxGame extends ApplicationAdapter {
 						player.setPosition(preMovePosition);
 					}
 
-
+					// Helps prevent player from pushing trash if the player is not currently moving
 					if (trash.isOverlapping() == true) {
 						pushSound.play(1.0f);
 						trash.setPushPosition(trash.push(pushDirection, speedDelta, player.isCanPush()));
@@ -851,9 +743,7 @@ public class MyGdxGame extends ApplicationAdapter {
 						break;
 					}
 
-
-					//player.render();
-					//break;
+				// Allows player to push again when overlapping ends.
 				} else if (!(playerSprite.getBoundingRectangle().overlaps(trashSprite.getBoundingRectangle())) && !trash.isOverlapping()) {
 					trash.setOverlapping(true);
 				}
@@ -878,25 +768,6 @@ public class MyGdxGame extends ApplicationAdapter {
 				player.setPosition(preMovePosition);
 				System.out.println("collision detected");
 			}
-// -randy copied and pasted from my first assignment, basically logic for the buttons that pop up through the different states
-//		if (isTouched) {
-//			float touchX = Gdx.input.getX();
-//			float touchY = Gdx.graphics.getHeight() - Gdx.input.getY();
-//
-//			if (gameState == GameState.MENU) {
-//				if (playButton.contains(touchX, touchY)) {
-//					gameState = GameState.PLAYING;
-//				} else if (exitButton.contains(touchX, touchY)) {
-//					Gdx.app.exit();
-//				}
-//
-//			} else if (gameState == GameState.FAIL) {
-//				if (tryAgainButton.contains(touchX, touchY)) startGame();
-//
-//			} else if (gameState == GameState.SUCCESS) {
-//				if (tryAgainButton.contains(touchX, touchY)) startGame();
-//				if (mainMenuButton.contains(touchX, touchY)) gameState = GameState.MENU;
-//			}
 
 		}
 		Sprite playerSprite = new Sprite(
@@ -908,6 +779,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		);
 		playerSprite.setPosition(player.getPosition().x, player.getPosition().y);
 
+
+		// Enemy collision
 		for (Enemy enemy : activeLevel.getEnemies()) {
 			Sprite enemySprite = new Sprite(
 					enemy.getCurrentFrame(),
@@ -927,7 +800,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 	}
-
+	// OBSOLETE
 	public void newGame() {
 		int trashCount = 5;
 
@@ -960,6 +833,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	}
 
+	/**
+	 *
+	 *
+	 *<p> Creates a ray to be used for trash collisions.</p>
+	 * @param x The starting x position of the ray.
+	 * @param y The starting y position of the ray
+	 * @param pushDirection The direction that a trash has been pushed, used to
+	 *                      set the directional componenet of the ray.
+	 * @return The ray object pointing in the direction of travel.
+	 */
 	public Ray createRay(float x, float y,PushDirection pushDirection) {
 		Vector3 rayDirection = null;
 
@@ -984,7 +867,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		return collisionRay;
 	}
 
-
+	/**
+	 *
+	 * <p> Reset and dispose of all current level elements, recreate the level, and
+	 * 		reset player variables.</p>
+	 *
+	 */
 	public void RestartGame() {
 		canPlayLevelSound = true;
 		levelRestart.play(1.0f);
@@ -1001,6 +889,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		gameState = GameState.PLAYING;
 	}
 
+	/**
+	 * <p> Switches between the current level and a new one.
+	 * </p>
+	 * @param level The level to switch to.
+	 *
+	 */
 	public void switchLevel(Level level) {
 		canPlayLevelSound = true;
 		levelTrans.play(1.0f);
