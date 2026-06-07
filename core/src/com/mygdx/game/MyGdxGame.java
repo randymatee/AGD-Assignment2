@@ -606,31 +606,31 @@ public class MyGdxGame extends ApplicationAdapter {
 		uiBatch.begin();
 		if (gameState == GameState.MENU) {
 			font.setColor(Color.WHITE);
-			font.draw(uiBatch, "BROOMBA", playButton.x - 20, playButton.y + playButton.height + 100);
+			font.draw(uiBatch, "BROOMBA", playButton.x + 40, playButton.y + playButton.height + 100);
 			uiBatch.draw(buttonTexture, playButton.x, playButton.y, playButton.width, playButton.height);
-			font.draw(uiBatch, "PLAY", playButton.x + playButton.width * 0.35f, playButton.y + playButton.height * 0.7f);
+			font.draw(uiBatch, "PLAY", playButton.x + playButton.width * 0.33f, playButton.y + playButton.height * 0.7f);
 			uiBatch.draw(buttonTexture, exitButton.x, exitButton.y, exitButton.width, exitButton.height);
-			font.draw(uiBatch, "EXIT", exitButton.x + exitButton.width * 0.37f, exitButton.y + exitButton.height * 0.7f);
+			font.draw(uiBatch, "EXIT", exitButton.x + exitButton.width * 0.33f, exitButton.y + exitButton.height * 0.7f);
 
 		} else if (gameState == GameState.FAIL) {
 			font.setColor(Color.RED);
-			font.draw(uiBatch, "GAME OVER", Gdx.graphics.getWidth() / 2f - 60, Gdx.graphics.getHeight() * 0.7f);
+			font.draw(uiBatch, "GAME OVER", Gdx.graphics.getWidth() / 2f - 210, Gdx.graphics.getHeight() * 0.7f);
 			uiBatch.draw(buttonTexture, tryAgainButton.x, tryAgainButton.y, tryAgainButton.width, tryAgainButton.height);
 			font.setColor(Color.WHITE);
-			font.draw(uiBatch, "TRY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.25f, tryAgainButton.y + tryAgainButton.height * 0.7f);
+			font.draw(uiBatch, "TRY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.12f, tryAgainButton.y + tryAgainButton.height * 0.7f);
 
 		} else if (gameState == GameState.SUCCESS) {
 			font.setColor(Color.GREEN);
-			font.draw(uiBatch, "YOU WIN!", Gdx.graphics.getWidth() / 2f - 50, Gdx.graphics.getHeight() * 0.7f);
+			font.draw(uiBatch, "YOU WIN!", Gdx.graphics.getWidth() / 2f - 160, Gdx.graphics.getHeight() * 0.7f);
 			uiBatch.draw(buttonTexture, tryAgainButton.x, tryAgainButton.y, tryAgainButton.width, tryAgainButton.height);
 			font.setColor(Color.WHITE);
-			font.draw(uiBatch, "PLAY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.22f, tryAgainButton.y + tryAgainButton.height * 0.7f);
+			font.draw(uiBatch, "PLAY AGAIN", tryAgainButton.x + tryAgainButton.width * 0.1f, tryAgainButton.y + tryAgainButton.height * 0.7f);
 			uiBatch.draw(buttonTexture, mainMenuButton.x, mainMenuButton.y, mainMenuButton.width, mainMenuButton.height);
-			font.draw(uiBatch, "MAIN MENU", mainMenuButton.x + mainMenuButton.width * 0.22f, mainMenuButton.y + mainMenuButton.height * 0.7f);
+			font.draw(uiBatch, "MAIN MENU", mainMenuButton.x + mainMenuButton.width * 0.1f, mainMenuButton.y + mainMenuButton.height * 0.7f);
 
 			if (activeLevel == level1) {
 				uiBatch.draw(buttonTexture, nextLevelButton.x, nextLevelButton.y, nextLevelButton.width, nextLevelButton.height);
-				font.draw(uiBatch, "NEXT LEVEL", nextLevelButton.x + nextLevelButton.width * 0.22f, nextLevelButton.y + nextLevelButton.height * 0.7f);
+				font.draw(uiBatch, "NEXT LEVEL", nextLevelButton.x + nextLevelButton.width * 0.07f, nextLevelButton.y + nextLevelButton.height * 0.7f);
 			}
 		}
 		uiBatch.end();
