@@ -23,6 +23,10 @@ import com.sun.java.accessibility.util.TopLevelWindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>
+ *     main class that handles creating, updating, rendering and puts the game together
+ */
 public class MyGdxGame extends ApplicationAdapter {
 
 	public enum GameState { MENU, PLAYING, FAIL, SUCCESS }
@@ -123,7 +127,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		nextLevelButton = new Rectangle(cx, h * 0.2f, bw, bh);
 	}
 
-
+	/**
+	 * <p>
+	 *     load resources for each status in game and levels.
+	 *     Loads objects, sounds and UI.
+	 * </p>
+	 */
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
@@ -486,6 +495,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		activeTrash = activeLevel.getTrash();
 	}
 
+	/**
+	 * renders the frames of the game and updates camera positioning
+	 */
 	@Override
 	public void render() {
 		update();
@@ -550,6 +562,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		uiBatch.end();
 	}
 
+	/**
+	 * <p>
+	 *     disposes resources to free up memory.
+	 * </p>
+	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
@@ -557,6 +574,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Platform.dispose();
 	}
 
+	/**
+	 * <p>
+	 *     updates logic of resources created.
+	 *     updates logic for functions like player movement, buttons and collision for objects.
+	 * </p>
+	 */
 	public void update() {
 
 		if (gameState == GameState.MENU) {
