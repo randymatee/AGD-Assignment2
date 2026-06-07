@@ -72,6 +72,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	SpriteBatch uiBatch;
 	BitmapFont font;
+	BitmapFont creditfont;
 	Texture buttonTexture;
 	Texture squareButtonTexture;
 
@@ -128,7 +129,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		uiBatch = new SpriteBatch();
 		font = new BitmapFont();
+		creditfont = new BitmapFont();
 		font.getData().setScale(5.0f);
+		creditfont.getData().setScale(2f);
 		buttonTexture = new Texture("Button/buttonSquare_blue.png");
 		squareButtonTexture = new Texture("Button/buttonSquare_blue.png");
 		setupButtons();
@@ -615,6 +618,11 @@ public class MyGdxGame extends ApplicationAdapter {
 			font.draw(uiBatch, "PLAY", playButton.x + playButton.width * 0.33f, playButton.y + playButton.height * 0.7f);
 			uiBatch.draw(buttonTexture, exitButton.x, exitButton.y, exitButton.width, exitButton.height);
 			font.draw(uiBatch, "EXIT", exitButton.x + exitButton.width * 0.33f, exitButton.y + exitButton.height * 0.7f);
+
+			creditfont.draw(uiBatch, "CC BY SA 4.0: TileMaps made by https://tilation.itch.io/", playButton.x - 800, playButton.y + playButton.height - 500);
+			creditfont.draw(uiBatch, "CC BY SA 4.0: Keys made by hyohnoo.itch.io/keyboard-controller-keys", playButton.x - 800, playButton.y + playButton.height - 550);
+			creditfont.draw(uiBatch, "Sounds made by coffeevalenbat.itch.io/sweet-sounds-sfx-pack", playButton.x - 800, playButton.y + playButton.height - 600);
+
 
 		} else if (gameState == GameState.FAIL) {
 			font.setColor(Color.RED);
