@@ -521,9 +521,9 @@ public class MyGdxGame extends ApplicationAdapter {
 			uiBatch.draw(buttonTexture, exitButton.x, exitButton.y, exitButton.width, exitButton.height);
 			font.draw(uiBatch, "EXIT", exitButton.x + exitButton.width * 0.33f, exitButton.y + exitButton.height * 0.7f);
 
-			creditfont.draw(uiBatch, "CC BY SA 4.0: TileMaps made by https://tilation.itch.io/", playButton.x - 800, playButton.y + playButton.height - 500);
-			creditfont.draw(uiBatch, "CC BY SA 4.0: Keys made by hyohnoo.itch.io/keyboard-controller-keys", playButton.x - 800, playButton.y + playButton.height - 550);
-			creditfont.draw(uiBatch, "Sounds made by coffeevalenbat.itch.io/sweet-sounds-sfx-pack", playButton.x - 800, playButton.y + playButton.height - 600);
+			creditfont.draw(uiBatch, "CC BY SA 4.0: TileMaps made by https://tilation.itch.io/", playButton.x - 690, playButton.y + playButton.height - 500);
+			creditfont.draw(uiBatch, "CC BY SA 4.0: Keys made by hyohnoo.itch.io/keyboard-controller-keys", playButton.x - 690, playButton.y + playButton.height - 550);
+			creditfont.draw(uiBatch, "Sounds made by coffeevalenbat.itch.io/sweet-sounds-sfx-pack", playButton.x - 690, playButton.y + playButton.height - 600);
 
 
 		} else if (gameState == GameState.FAIL) {
