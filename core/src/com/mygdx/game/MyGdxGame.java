@@ -169,8 +169,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		int row1Height = 225;
-		int row0Height = row1Height + trashHeight + padding;
-		int rowMinus1Height = row0Height + trashHeight + padding;
+		int row0Height = row1Height + trashHeight;
+		int rowMinus1Height = row0Height + trashHeight;
 
 		List<Vector2> level1RowMinusOne = new ArrayList<Vector2>();
 		level1RowMinusOne.add(new Vector2(1000 + trashWidth * 4, rowMinus1Height));
@@ -196,7 +196,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-		int row2Height = row1Height - trashHeight - padding ;
+		int row2Height = row1Height - trashHeight;
 		List<Vector2> level1Row2 = new ArrayList<Vector2>();
 		level1Row2.add(new Vector2(250, row2Height));
 		level1Row2.add(new Vector2(250 + trashWidth, row2Height));
@@ -206,6 +206,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row2.add(new Vector2(1000 + trashWidth * 2, row2Height));
 		level1Row2.add(new Vector2(1000 + trashWidth * 3, row2Height));
 		level1Row2.add(new Vector2(1000 + trashWidth * 5, row2Height));
+		level1Row2.add(new Vector2(1000 + trashWidth * 6, row2Height));
+
 
 		level1Row2.add(new Vector2(1400 + trashWidth, row2Height));
 		level1Row2.add(new Vector2(1400 + trashWidth * 2, row2Height));
@@ -216,7 +218,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-		int row3Height = row2Height - trashHeight - padding ;
+		int row3Height = row2Height - trashHeight;
 
 		List<Vector2> level1Row3 = new ArrayList<Vector2>();
 		level1Row3.add(new Vector2(250, row3Height));
@@ -229,6 +231,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row3.add(new Vector2(1000 + trashWidth * 5, row3Height));
 		level1Row3.add(new Vector2(1000 + trashWidth * 2, row3Height));
 		level1Row3.add(new Vector2(1000 + trashWidth * 3, row3Height));
+		level1Row3.add(new Vector2(1000 + trashWidth * 6, row3Height));
+
 
 		level1Row3.add(new Vector2(1400, row3Height));
 		level1Row3.add(new Vector2(1400 + trashWidth * 2, row3Height));
@@ -239,7 +243,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		//level1Row3.add(new Vector2(1400 + trashWidth * 3, row3Height));
 
 
-		int row4Height = row3Height - trashHeight - padding;
+		int row4Height = row3Height - trashHeight;
 
 
 		List<Vector2> level1Row4 = new ArrayList<Vector2>();
@@ -249,6 +253,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		level1Row4.add(new Vector2(650 + trashWidth, row4Height));
 		level1Row4.add(new Vector2(1000 + trashWidth, row4Height));
 		level1Row4.add(new Vector2(1000 + trashWidth * 5, row4Height));
+		level1Row4.add(new Vector2(1000 + trashWidth * 6, row4Height));
+
 
 		level1Row4.add(new Vector2(1400, row4Height));
 		level1Row4.add(new Vector2(1400 + trashWidth * 2, row4Height));
@@ -264,7 +270,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-		int row5Height = row4Height - trashHeight - padding ;
+		int row5Height = row4Height - trashHeight;
 		List<Vector2> level1Row5 = new ArrayList<Vector2>();
 		level1Row5.add(new Vector2(250, row5Height));
 		level1Row5.add(new Vector2(250 + trashWidth, row5Height));
@@ -276,12 +282,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		//level1Row5.add(new Vector2(1000 + trashWidth * 3, row5Height));
 		//level1Row5.add(new Vector2(1000 + trashWidth * 4, row5Height));
 		level1Row5.add(new Vector2(1000 + trashWidth * 5, row5Height));
+		level1Row5.add(new Vector2(1000 + trashWidth * 6, row5Height));
+
+
 
 		level1Row5.add(new Vector2(1400, row5Height));
 		level1Row5.add(new Vector2(1400 + trashWidth * 2, row5Height));
 
 		//TODO: Temporary because no tile collison
-		level1Row5.add(new Vector2(1400 + trashWidth, row5Height - trashHeight));
+		//level1Row5.add(new Vector2(1400 + trashWidth, row5Height - trashHeight));
 
 
 		List<List<Vector2>> level1TrashPos = new ArrayList<List<Vector2>>();
@@ -323,6 +332,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		Vector2 level1EnemyPos4 = new Vector2(1400 + trashWidth * 5, row5Height - 2);
 		level1EnemyDirs.add(PushDirection.DOWN);
+		level1EnemySpeeds.add(defaultEnemySpeed + 200);
+
 
 
 
@@ -365,8 +376,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 		List<Vector2> level2Row2 = new ArrayList<Vector2>();
-		//TODO: Testing, remove
-		level2Row2.add(new Vector2(50, row2Height));
+		//level2Row2.add(new Vector2(50, row2Height));
 
 		level2Row2.add(new Vector2(650, row2Height));
 		level2Row2.add(new Vector2(650 + trashWidth * 3, row2Height));
@@ -403,8 +413,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		level2Row5.add(new Vector2(650 + trashWidth * 11, row5Height));
 
 
-		//TODO: REMOVE, TESTING
-		level2Row5.add(new Vector2(650 + trashWidth * 3, row5Height - trashHeight - padding));
+		//level2Row5.add(new Vector2(650 + trashWidth * 3, row5Height - trashHeight - padding));
 
 
 
@@ -528,14 +537,14 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		levels = new ArrayList<>();
 
-		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, level1Platform, this, level1EnemyDirs, level1EnemySpeeds);
-		level2 = new Level(level2TrashPos, level2EnemyPos, player.getStartingPositon(), player, level2Platform, this, level2EnemyDir, level2EnemySpeeds);
+		level1 = new Level(level1TrashPos, level1EnemyPos, player.getStartingPositon(), player, level1Platform, this, level1EnemyDirs, level1EnemySpeeds, 1925);
+		level2 = new Level(level2TrashPos, level2EnemyPos, player.getStartingPositon(), player, level2Platform, this, level2EnemyDir, level2EnemySpeeds, 1350);
 
-		level2.create();
+		level1.create();
 
 		levels.add(level1);
 		levels.add(level2);
-		activeLevel = level2;
+		activeLevel = level1;
 		activeTrash = activeLevel.getTrash();
 	}
 
@@ -646,6 +655,7 @@ public class MyGdxGame extends ApplicationAdapter {
 				if (playButton.contains(touchX, touchY)) {
 					menuEnter.play(1.0f);
 					gameState = GameState.PLAYING;
+					RestartGame();
 				}
 
 				if (exitButton.contains(touchX, touchY)) {
@@ -691,8 +701,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		float touchScreenX = Gdx.input.getX();
 		float touchScreenY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-		if (gameState == GameState.SUCCESS && activeLevel == level1 && Gdx.input.justTouched()) {
-			if (nextLevelButton.contains(touchScreenX, touchScreenY)) {
+		if (gameState == GameState.SUCCESS&& Gdx.input.justTouched()) {
+			if (nextLevelButton.contains(touchScreenX, touchScreenY) && activeLevel == level1) {
 				switchLevel(level2);
 				gameState = GameState.PLAYING;
 
@@ -903,6 +913,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					enemy.getSpriteHeight()
 			);
 			enemySprite.setPosition(enemy.getPosition().x, enemy.getPosition().y);
+			enemySprite.setBounds(enemy.getPosition().x, enemy.getPosition().y, enemy.getHitboxDimensions().x, enemy.getHitboxDimensions().y);
 
 			if (playerSprite.getBoundingRectangle().overlaps(enemySprite.getBoundingRectangle())) {
 				player.setDead(true);

@@ -34,6 +34,9 @@ public class Enemy extends Entity implements ApplicationListener {
     private Platform platform;
     private List<Trash> activeTrash;
 
+    private Vector2 hitboxDimensions;
+
+
     private void flipEnemy() {
         for (TextureRegion frame : getAnimationFrames()) {
             frame.flip(false, true);
@@ -64,6 +67,9 @@ public class Enemy extends Entity implements ApplicationListener {
 
         setSpriteHeight(40);
         setSpriteWidth(40);
+
+        hitboxDimensions = new Vector2(getSpriteWidth() / 10, getSpriteHeight() / 2);
+
     }
 
     public void setPlatform(Platform platform) {
@@ -155,5 +161,9 @@ public class Enemy extends Entity implements ApplicationListener {
 
     public void setMoveDirection(PushDirection moveDirection) {
         this.moveDirection = moveDirection;
+    }
+
+    public Vector2 getHitboxDimensions() {
+        return hitboxDimensions;
     }
 }

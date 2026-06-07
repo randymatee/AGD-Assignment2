@@ -34,12 +34,10 @@ public class Level implements ApplicationListener {
 
     private List<Float> enemySpeeds;
 
-
-
     private final int endPosition;
 
     public Level(List<List<Vector2>> trashPositionsbyRow, List<Vector2> enemyPositions, Vector2 playerStartingPosition, Player player,
-                 Platform platform, MyGdxGame game, List<PushDirection> enemyStartDirs, List<Float> enemySpeeds) {
+                 Platform platform, MyGdxGame game, List<PushDirection> enemyStartDirs, List<Float> enemySpeeds, int endPosition) {
 
         this.trashPositionsbyRow = trashPositionsbyRow;
         this.enemyPositions = enemyPositions;
@@ -47,7 +45,7 @@ public class Level implements ApplicationListener {
         this.platform = platform;
         this.player = player;
         this.game = game;
-        this.endPosition = 1925;
+        this.endPosition = endPosition;
         this.enemyStartDirs = enemyStartDirs;
         this.enemySpeeds = enemySpeeds;
 
