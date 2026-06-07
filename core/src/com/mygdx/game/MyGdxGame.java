@@ -107,7 +107,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		return activeLevel;
 	}
 
-	//copied from my assignment 1
 	private void setupButtons() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
@@ -288,6 +287,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		level1Row5.add(new Vector2(1400, row5Height));
 		level1Row5.add(new Vector2(1400 + trashWidth * 2, row5Height));
+		//level1Row5.add(new Vector2(1400 + trashWidth * 6, row5Height));
+
 
 		//TODO: Temporary because no tile collison
 		//level1Row5.add(new Vector2(1400 + trashWidth, row5Height - trashHeight));
@@ -351,6 +352,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		List<Vector2> level2Row0 = new ArrayList<Vector2>();
 		level2Row0.add(new Vector2(650 + trashWidth * 7, row0Height));
+		level2Row0.add(new Vector2(650 + trashWidth * 6, row0Height));
+
 
 
 
@@ -359,6 +362,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		level2Row1.add(new Vector2(650 + trashWidth * 4, row1Height));
 		level2Row1.add(new Vector2(650 + trashWidth * 2, row1Height));
 		level2Row1.add(new Vector2(650 + trashWidth * 11, row1Height));
+		level2Row1.add(new Vector2(650 + trashWidth * 6, row1Height));
 		level2Row1.add(new Vector2(650 + trashWidth * 7, row1Height));
 
 
@@ -551,7 +555,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render() {
 		update();
-		ScreenUtils.clear(1, 0, 0, 1);
+		ScreenUtils.clear(0, 0, 0, 1);
 
 
 		boolean isTouched = Gdx.input.isTouched();
@@ -925,8 +929,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void newGame() {
-		// TODO: Get variables stored in level class for stuff like amount of trash / orientation
-
 		int trashCount = 5;
 
 		for (int i = 0; i < trashCount - 1; i++) {

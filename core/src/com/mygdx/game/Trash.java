@@ -300,12 +300,12 @@ public class Trash extends Entity implements ApplicationListener {
 
             Ray collisionRay = Game.createRay(this.getPosition().x + this.getSpriteWidth() / 2, this.getPosition().y + this.getSpriteHeight() / 2, directionOfMovement);
 
-            ShapeRenderer shapeRenderer = new ShapeRenderer();
-            shapeRenderer.setProjectionMatrix(Game.getCamera().combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.line(collisionRay.origin.x, collisionRay.origin.y, collisionRay.origin.x + 500, collisionRay.origin.y);
-            shapeRenderer.end();
+            //ShapeRenderer shapeRenderer = new ShapeRenderer();
+            //shapeRenderer.setProjectionMatrix(Game.getCamera().combined);
+            //shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            //shapeRenderer.setColor(Color.GREEN);
+            //shapeRenderer.line(collisionRay.origin.x, collisionRay.origin.y, collisionRay.origin.x + 500, collisionRay.origin.y);
+            //shapeRenderer.end();
 
             for (Trash trash : activeTrash) {
                 Sprite trashSprite = new Sprite(trash.getCurrentFrame(), (int) trash.getPosition().x, (int) trash.getPosition().y, trash.getSpriteWidth(), trash.getSpriteHeight());
